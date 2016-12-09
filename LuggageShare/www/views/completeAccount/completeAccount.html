@@ -1,0 +1,30 @@
+<ion-view hide-back-button="true" hide-nav-bar="true">
+  <ion-content class="padding">
+    <div class="list text-center padding">
+      <img class="logo margin-top0" ng-src="img/logo.png">
+      <h2><span class="bold">Ahoy Mate!</span></h2>
+      <h4 class="line-height-160">Almost done! Just choose a username and you're good to go!</h4>
+      <img class="profilePic margin-top0" ng-src="{{user.profilePic}}">
+    </div>
+    <form name="completeAccountForm" novalidate ng-submit="completeAccountForm.$valid && completeAccount(user)">
+      <div class="list margin-top-20">
+        <label class="item item-input item-clear margin-bottom10">
+          <span class="input-label font-bold">Username</span>
+          <input name="username" type="text" ng-model="user.username" placeholder="Username" ng-minlength="5" ng-maxlength="30" required>
+        </label>
+        <label class="item item-input item-clear margin-bottom10">
+          <span class="input-label font-bold">Name</span>
+          <input name="name" type="text" ng-model="user.name" placeholder="Name" ng-minlength="5" ng-maxlength="30" required>
+        </label>
+        <label class="item item-input item-clear margin-bottom10">
+          <span class="input-label font-bold">Email</span>
+          <input name="email" type="email" ng-model="user.email" placeholder="Email" ng-minlength="5" ng-maxlength="30" required>
+        </label>
+      </div>
+    </form>
+    <div class="button-bar margin-top-10">
+      <button class="button button-block button-dark" ng-click="back()">Back to Login</button>
+      <button class="button button-block button-energized" ng-click="completeAccount(user)" ng-disabled="completeAccountForm.$invalid">Complete</button>
+    </div>
+  </ion-content>
+</ion-view>

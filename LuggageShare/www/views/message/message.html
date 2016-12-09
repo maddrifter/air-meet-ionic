@@ -1,0 +1,36 @@
+<ion-view hide-back-button="true" hide-nav-bar="true" can-swipe-back="false" cache-view="false">
+  <ion-header-bar align-title="center" class="bar-energized" ng-click="scrollTop()">
+    <div class="buttons">
+      <button class="button button-clear" ng-click="back()">Back</button>
+    </div>
+    <h1 class="title">{{conversationName}}</h1>
+  </ion-header-bar>
+  <ion-content ng-click="scrollBottom()" class="has-footer">
+    <ol class="messages padding-top10">
+      <li class="{{message.class}} margin-left10 margin-right10" ng-repeat="message in messages">
+        <div class="avatar">
+          <img ng-src="{{message.profilePic}}">
+        </div>
+        <div class="msg" ng-if="message.type == 'text'">
+          <p>{{message.message}}</p>
+          <time>
+            <i class="icon ion-clock"></i> {{message.time}}
+          </time>
+        </div>
+        <div class="msg" ng-if="message.type == 'image'">
+          <img ng-src='{{message.image}}' imageonload="scrollBottom()" alt='' ng-click="enlargeImage(message.image)"/>
+          <time>
+            <i class="icon ion-clock"></i> {{message.time}}
+          </time>
+        </div>
+      </li>
+    </ol>
+  </ion-content>
+  <ion-footer-bar keyboard-attach class="item-input-inset bar-light" ng-click="scrollBottom()">
+    <a class="button button-icon icon ion-camera energized" ng-click="sendPictureMessage()"></a>
+    <label class="item-input-wrapper">
+      <input type="text" placeholder="Type your message" ng-model="message" />
+    </label>
+    <a class="button button-icon icon ion-email energized" ng-click="sendTextMessage()"></a>
+  </ion-footer-bar>
+</ion-view>

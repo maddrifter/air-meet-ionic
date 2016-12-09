@@ -1,0 +1,33 @@
+<ion-view hide-back-button="true" hide-nav-bar="true">
+  <ion-content class="padding">
+    <div class="list text-center padding">
+      <img class="logo" src="img/logo.png">
+    </div>
+    <form novalidate name="loginForm" ng-submit="loginForm.$valid && login(user)">
+      <div class="list">
+        <label class="item item-input item-clear">
+          <span class="input-label">Email:</span>
+          <input name="email" type="email" ng-model="user.email" placeholder="Email" ng-minlength="5" ng-maxlength="30" required>
+        </label>
+        <label class="item item-input item-clear">
+          <span class="input-label">Password:</span>
+          <input name="password" type="password" ng-model="user.password" placeholder="Password" ng-minlength="5" ng-maxlength="30" required>
+        </label>
+        <input type="submit" class="button button-block button-clear button-energized font-size-150" value="Continue" ng-disabled="loginForm.$invalid">
+        <div class="button-bar">
+          <a href="#/forgotPassword" class="button button-clear button-energized">Forgot Password</a>
+          <a href="#/register" class="button button-clear button-energized">Register</a>
+        </div>
+      </div>
+    </form>
+    <div class="button-bar">
+      <button ng-click="loginWithFacebook()" class="button button-positive button-block"><i class="icon padding medium ion-social-facebook clear"></i></button>
+      <button ng-click="loginWithGoogle()" class="button button-assertive button-block"><i class="icon padding medium ion-social-google clear"></i></button>
+      <button ng-click="loginWithTwitter()" class="button button-calm button-block"><i class="icon padding medium ion-social-twitter clear"></i></button>
+    </div>
+    <div class="list text-center padding">
+      <p class="line-height-160 larger-clear">By using this application, you agree to our</br><a href="#">Terms of Use</a> and that you have read our<a href="#"> Privacy Policy</a></p>
+      <p class="larger-clear font-bold energized">FireLine © 2016</p>
+    </div>
+  </ion-content>
+</ion-view>

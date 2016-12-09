@@ -1,1 +1,503 @@
-/* Empty. Add your own CSS if you like */
+.logo {
+  width: 100%;
+  height: auto;
+  margin-top: 25px;
+}
+.item-input {
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.item-clear {
+  border: 0px;
+}
+.button {
+  border-radius: 5px;
+}
+.button-no-margin-top {
+  margin-top: 0px !important;
+}
+.spinner svg {
+  width: 56px;
+  height: 56px;
+  stroke: #fff;
+  fill: #fff;
+}
+.image-popup .popup {
+  text-align: center;
+  width: 100% !important;
+  height: auto !important;
+  background: rgba(0, 0, 0, 1);
+}
+.image-popup .popup-head {
+  display: none;
+}
+.image-popup .popup-buttons {
+  position: absolute;
+  top: -2.5% !important;
+  left: 85% !important;
+}
+.image-popup .button-confirm {
+  color: rgba(255, 255, 255, 0.75);
+  background: none;
+  border: 0px;
+}
+.message-confirm .popup {
+  width: 225px !important;
+  height: auto !important;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border-radius: 10px !important;
+  font-size: 120%;
+  line-height: 160%;
+  text-align: center;
+}
+.message-confirm .popup-head {
+  border: 0px !important;
+}
+.message-confirm .popup-title {
+  color: #fff;
+  font-size: 200%;
+  margin-bottom: -20px;
+}
+.message-confirm .button-confirm {
+  color: #fff;
+  background: none;
+  border: 0px;
+}
+.message-popup {
+  width: 225px;
+  height: auto;
+  border-radius: 50px !important;
+}
+.message-popup p {
+  line-height: 160%;
+  font-size: 110%;
+}
+.loading {
+  border-radius: 10px !important;
+}
+.profilePic {
+  width: 96px;
+  height: auto;
+  border-radius: 150px;
+  margin-top: 75px;
+}
+.bold {
+  font-weight: bolder;
+}
+.line-height-160 {
+  line-height: 160%;
+}
+h4 a {
+  text-decoration: none;
+}
+.larger-clear {
+  font-size: 110%;
+}
+.larger-clear a {
+  text-decoration: none;
+}
+.item-input-wrapper {
+  background: #fff;
+  margin-right: -30px !important;
+}
+/* Search Bar */
+
+.item-searchbar {
+  border: 0;
+  margin-bottom: -10px !important;
+}
+.item-searchbar i {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+/* Tabs */
+
+.tab-item {
+  color: #ffc900 !important;
+  opacity: 0.5;
+}
+
+/* Custom CSS Helpers */
+.energized {
+  color: #ffc900 !important;
+}
+.input-style {
+  font-size: 16px !important;
+  font-weight: bold !important;
+  background: #fff !important;
+}
+.disabled-input-style {
+  font-size: 16px !important;
+  font-weight: bold !important;
+  opacity: 1 !important;
+  background: #fff !important;
+}
+.profile-button {
+  border-radius: 10px !important;
+  height: 65px;
+  margin: 10px;
+}
+.profileProfilePic {
+  margin-left: -5px;
+  min-width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 100%;
+  object-fit: cover;
+}
+.groupDetailsPic {
+  width: 128px;
+  height: 128px;
+  border-radius: 100%;
+  object-fit: cover;
+}
+.groupListPic {
+  width: 75px;
+  height: 75px;
+  border-radius: 100px;
+  object-fit: cover;
+}
+.groupComposePic {
+  min-width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 100%;
+  object-fit: cover;
+}
+.groupMemberPic {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 100%;
+}
+.profile-inline-icon {
+  width: 16px;
+  font-size: 30px;
+  padding: 0;
+  margin: 0;
+  margin-left: -10px;
+  margin-right: 5px;
+}
+.inline-icon {
+  width: 16px;
+  font-size: 30px;
+  padding: 0;
+  margin: 0;
+}
+.inline-group-icon {
+  width: 16px;
+  font-size: 36px;
+  padding: 0;
+  margin: 0;
+  margin-left: -10px;
+  margin-right: 10px;
+}
+.text-center {
+  text-align: center !important;
+}
+.text-left {
+  text-align: left !important;
+}
+.margin-top0 {
+  margin-top: 0px !important;
+}
+.margin-top10 {
+  margin-top: 10px !important;
+}
+.margin-top-5 {
+  margin-top: -5px !important;
+}
+.margin-top-10 {
+  margin-top: -10px !important;
+}
+.margin-top15 {
+  margin-top: 15px !important;
+}
+.margin-top20 {
+  margin-top: 20px !important;
+}
+.margin-top-20 {
+  margin-top: -20px !important;
+}
+.margin-left10 {
+  margin-left: 10px !important;
+}
+.margin-left20 {
+  margin-left: 20px !important;
+}
+.margin-bottom10 {
+  margin-bottom: 10px !important;
+}
+.margin-bottom-5 {
+  margin-bottom: -5px !important;
+}
+.margin-bottom-10 {
+  margin-bottom: -10px !important;
+}
+.margin-bottom-15 {
+  margin-bottom: -15px !important;
+}
+.margin-bottom-20 {
+  margin-bottom: -20px !important;
+}
+.margin-right10 {
+  margin-right: 10px !important;
+}
+.margin-right-10 {
+  margin-right: -10px !important;
+}
+.padding-top10 {
+  padding-top: 10px !important;
+}
+.clear-margin {
+  margin: 0 !important;
+}
+.clear-border {
+  border: 0 !important;
+}
+.clear-padding-margin {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.font-bold {
+  font-weight: bold !important;
+}
+.font-size-150 {
+  font-size: 150% !important;
+}
+.font-size-100 {
+  font-size: 100% !important;
+}
+.font-size-85 {
+  font-size: 85% !important;
+}
+.float-left {
+  float: left !important;
+}
+
+/* Messages List */
+
+.item-border-off .item:first-child {
+  border-top: 0;
+}
+.time-list {
+  color: #a3a3a3 !important;
+  font-size: 12px !important;
+  padding-left: 20px;
+  position: absolute;
+  right: 12px;
+  top: 5px;
+}
+.time-list .icon {
+  left: 0;
+}
+.time-list .icon:before {
+  color: #a3a3a3;
+  font-size: 12px;
+  width: 12px;
+}
+.online-on, .online-off {
+  background: #ffc900;
+  border-radius: 50%;
+  display: inline-block;
+  height: 9px;
+  margin-left: 6px;
+  vertical-align: middle;
+  width: 9px;
+}
+.online-off {
+  background: #E8E8E8;
+}
+.item-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 60px !important;
+  max-height: 60px !important;
+  min-height: 60px !important;
+  min-width: 60px !important;
+  object-fit: cover;
+  margin-left: -6px;
+  margin-top: -8px;
+}
+.item-avatar h2 {
+  font-size: 105%;
+  margin-left: 10px;
+  color: #353535;
+}
+.item-avatar p {
+  font-size: 95%;
+  margin-left: 10px;
+  color: #353535;
+}
+.button-header, .button-header .icon:before {
+  font-size: 25px !important;
+  border: 0px;
+}
+.item-chat {
+  margin-top: 1px;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: solid #f5f5f5;
+  border-width: 1px;
+}
+.larger-clear {
+  font-size: 110%;
+}
+.larger-clear a {
+  text-decoration: none;
+  color: #ffc900;
+}
+
+/* Messages */
+
+.item-chat p a {
+  text-decoration: none;
+}
+.messages {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.messages li {
+  display: block;
+  clear: both;
+  max-width: 80%;
+  margin: 0 0 1rem 0;
+  padding: 0;
+}
+.messages p {
+  border-radius: .75rem;
+  background: #e6e5eb;
+  color: #383641;
+  padding: .6875rem;
+  margin: 0;
+  font-size: .875rem;
+}
+.messages img {
+  display: block;
+  border-radius: .75rem;
+  min-width: 60px !important;
+  min-height: 60px !important;
+  object-fit: cover;
+}
+.messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.messages .other {
+  float: right;
+}
+.messages .self {
+  float: left;
+}
+.messages .other, .messages .self {
+  display: flex;
+  margin: 0 0 1rem 0;
+  padding: 0;
+}
+.messages .other a {
+  text-decoration: none;
+  font-weight: bold;
+}
+.messages .self a {
+  text-decoration: none;
+  font-weight: bold;
+}
+.messages .other .avatar, .messages .self .avatar {
+  height: 60px;
+  min-width: 60px;
+  width: 60px;
+  min-height: 60px;
+}
+.messages .other .avatar img, .messages .self .avatar img {
+  border-radius: 50%;
+  max-width: 100%;
+}
+.messages .other .msg, .messages .self .msg {
+  margin-left: 10px;
+}
+.messages .other .msg p, .messages .self .msg p {
+  background: #ffc900;
+  border-radius: .3rem;
+  color: #fff;
+  font-size: .875rem;
+  margin: 0;
+  padding: .6875rem;
+  position: relative;
+}
+.messages .other .msg p:after, .messages .self .msg p:after {
+  border-color: transparent #ffc900;
+  border-style: solid;
+  border-width: 6px 5px 6px 0;
+  content: '';
+  display: block;
+  left: -5px;
+  position: absolute;
+  top: 8px;
+  width: 0;
+  z-index: 1;
+}
+.messages .other .msg img, .messages .self .msg img {
+  display: block;
+  border-radius: .75rem;
+  max-width: 265px;
+  max-height: 150px;
+}
+.messages .other .msg time, .messages .self .msg time {
+  color: #A1A1A1;
+  float: right;
+  font-size: 0.8rem;
+  margin-top: 3px;
+}
+.messages .other {
+  justify-content: flex-end;
+}
+.messages .other .avatar {
+  order: 2;
+}
+.messages .other .msg {
+  margin-left: inherit;
+  margin-right: 10px;
+}
+.messages .other .msg p {
+  background: #e8e8e8;
+  color: #6f6f6f;
+  order: 1;
+}
+.messages .other .msg p:after {
+  border-color: transparent #e8e8e8;
+  border-width: 6px 0 6px 5px;
+  left: inherit;
+  right: -5px;
+}
+.messages .other .msg img {
+  order: 1;
+  float: right;
+}
+.messages .self .msg time {
+  float: right;
+}
+.messages .other .msg time {
+  float: left;
+}
+.scroll-bar-indicator {
+  display: none;
+}
+.cookie-text {
+    font-family: 'Cookie';
+    font-size:40px;
+    line-height: 40px;
+}
+.rm-margin {
+    margin: 0px;
+}
+.b-margin-6vh {
+  margin-bottom: 6vh !important;
+}
+.relative-pos {
+  position: relative;
+}

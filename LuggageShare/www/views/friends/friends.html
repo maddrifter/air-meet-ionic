@@ -1,0 +1,102 @@
+<ion-view hide-back-button="true" hide-nav-bar="true" can-swipe-back="false" cache-view="false">
+  <ion-header-bar align-title="center" class="bar-energized">
+    <h1 class="title">People</h1>
+  </ion-header-bar>
+  <ion-content class="has-footer">
+    <div class="button-bar margin-top-10 margin-bottom-10" ng-show="mode == 'Friends'">
+      <button class="button button-block button-clear button-energized" ng-click="mode = 'Friends'">Friends</button>
+      <button class="button button-block button-energized" ng-click="mode = 'Requests'">Requests</button>
+    </div>
+    <div class="button-bar margin-top-10 margin-bottom-10" ng-show="mode == 'Requests'">
+      <button class="button button-block button-energized" ng-click="mode = 'Friends'">Friends</button>
+      <button class="button button-block button-clear button-energized" ng-click="mode = 'Requests'">Requests</button>
+    </div>
+    <!--  Requests Tab -->
+    <div ng-show="mode == 'Requests'">
+      <div class="row" ng-repeat="request in friendRequests">
+        <div class="col col-75 clear-padding-margin margin-right-10">
+          <ion-item class="item-avatar clear-border">
+            <img ng-src="{{request.profilePic}}">
+            <h2 class="font-bold font-size-100">{{request.name}} (@{{request.username}})</h2>
+            <p class="font-bold font-size-85">sent you a friend request.</p>
+          </ion-item>
+        </div>
+        <div class="col col-25 clear-padding-margin">
+          <div class="button-bar margin-top10">
+            <button class="button button-clear button-assertive" ng-click="deleteRequest(request)"><i class="icon ion-close"></i></button>
+            <button class="button button-clear button-balanced" ng-click="acceptRequest(request)"><i class="icon ion-checkmark"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="row" ng-repeat="request in requestsSent">
+        <div class="col col-75 clear-padding-margin">
+          <ion-item class="item-avatar clear-border">
+            <img ng-src="{{request.profilePic}}">
+            <h2 class="font-bold font-size-100">{{request.name}} (@{{request.username}})</h2>
+            <p class="font-bold font-size-85">Friend request sent.</p>
+          </ion-item>
+        </div>
+        <div class="col col-25 clear-padding-margin">
+          <div class="button-bar margin-top10 margin-left20">
+            <button class="button button-clear button-assertive" ng-click="cancelRequest(request)"><i class="icon ion-close"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div ng-show="mode == 'Requests'">
+      <div class="row margin-bottom-15">
+        <div class="col col-75 clear-padding-margin">
+          <label class="item item-input item-searchbar">
+            <i class="icon ion-ios-search"></i>
+            <input type="text" placeholder="Search for people or username" ng-model="searchUser" />
+          </label>
+        </div>
+        <div class="col col-25 clear-padding-margin">
+          <div class="button-bar margin-left20">
+          <button class="button button-clear button-energized" ng-click="searchUser = undefined"><i class="icon ion-android-close"></i></button>
+        </div>
+        </div>
+      </div>
+      <div class="row" ng-repeat="user in users | userFilter: searchUser | orderBy: 'name'">
+        <div class="col col-75 clear-padding-margin">
+          <ion-item class="item-avatar clear-border">
+            <img ng-src="{{user.profilePic}}">
+            <h2 class="font-bold">{{user.name}}</h2>
+            <p class="font-bold">@{{user.username}}</p>
+          </ion-item>
+        </div>
+        <div class="col col-25 clear-padding-margin">
+          <div class="button-bar margin-top10 margin-left20">
+            <button class="button button-clear button-energized" ng-click="sendRequest(user)"><i class="icon ion-person-add"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  Friends Tab -->
+    <div ng-show="mode == 'Friends'">
+      <div class="row margin-bottom-15">
+        <div class="col col-75 clear-padding-margin">
+          <label class="item item-input item-searchbar">
+            <i class="icon ion-ios-search"></i>
+            <input type="text" placeholder="Search for people or username" ng-model="friendSearch" />
+          </label>
+        </div>
+        <div class="col col-25 clear-padding-margin">
+          <div class="button-bar margin-left20">
+            <button class="button button-clear button-energized" ng-click="friendSearch = undefined"><i class="icon ion-android-close"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="row" ng-repeat="friend in friends | friendFilter: friendSearch | orderBy: 'name'">
+        <div class="col clear-padding-margin">
+          <ion-item class="item-avatar clear-border" ng-click="chat(friend)">
+            <img ng-src="{{friend.profilePic}}">
+            <h2 class="font-bold">{{friend.name}}<div class="online-on" ng-if="friend.online"></div></h2>
+            <p class="font-bold">@{{friend.username}}</p>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+  <div ng-include src="'views/tabs/tabs.html'"></div>
+</ion-view>

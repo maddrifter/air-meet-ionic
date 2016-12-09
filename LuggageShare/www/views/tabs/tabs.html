@@ -1,0 +1,16 @@
+<ion-footer-bar style="margin-left: -5px !important;">
+  <ion-tabs class="tabs-icon-only tabs-stable tabs-color-active-energized">
+    <ion-tab icon-off="ion-chatbox" badge="unreadMessages" badge-style="badge-assertive" icon-on="ion-chatbox" ng-click="changeTab('messages')">
+      <ion-nav-view name="tab-chats"></ion-nav-view>
+    </ion-tab>
+    <ion-tab icon-off="ion-chatboxes" badge="unreadGroupMessages" badge-style="badge-assertive" icon-on="ion-chatboxes" ng-click="changeTab('groups')">
+      <ion-nav-view name="tab-dash"></ion-nav-view>
+    </ion-tab>
+    <ion-tab icon-off="ion-ios-people" badge="friendRequestsCount" badge-style="badge-assertive" icon-on="ion-ios-people" ng-click="changeTab('friends')">
+      <ion-nav-view name="tab-favorites"></ion-nav-view>
+    </ion-tab>
+    <ion-tab icon-off="ion-gear-b" icon-on="ion-gear-b" ng-click="changeTab('profile')">
+      <ion-nav-view name="tab-account"></ion-nav-view>
+    </ion-tab>
+  </ion-tabs>
+</ion-footer-bar>

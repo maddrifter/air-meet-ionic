@@ -1,0 +1,35 @@
+<ion-view hide-nav-bar="true" hide-back-button="true" cache-view="false">
+  <ion-content class="login-5 text-center" scroll="false">
+
+    <!--top-->
+    <div class="padding">
+       <img class="padding text-center" src="img/cup.png" width="130px">
+      <h2 class="text-light cookie-text rm-margin">Luggage Share</h2>
+    </div>
+    <form novalidate name="loginForm" ng-submit="loginForm.$valid && login(user)">
+      <div class="list padding text-center">
+           <label class="item item-input">
+               <input name="email" type="email" ng-model="user.email" placeholder="Email" ng-minlength="5" ng-maxlength="30" required>
+           </label>
+           <label class="item item-input">
+               <input name="password" type="password" ng-model="user.password" placeholder="Password" ng-minlength="5" ng-maxlength="30" required>
+           </label>
+       </div>
+       <div class="btn-holder relative-pos">
+         <input type="submit" class="button button-clear button-block button-light" value="Login" ng-disabled="loginForm.$invalid">
+         <a href="#/register" class="button button-calm button-block shadow  animated bounceIn">Register</a>
+       </div>
+    </form>
+    <!--footer-->
+    <div class="footer-content btn-holder">
+
+      <button ng-click="loginWithFacebook()" class="button button-facebook  button-block shadow  animated bounceIn"><i class="icon ion-social-facebook"></i> Facebook</button>
+      <button ng-click="loginWithGoogle()" class="button button-assertive  button-block shadow  animated bounceIn"><i class="icon ion-social-googleplus"></i>Google</button>
+
+      <!--<a class="text-light">Login</a>-->
+
+    </div>
+
+
+  </ion-content>
+</ion-view>
