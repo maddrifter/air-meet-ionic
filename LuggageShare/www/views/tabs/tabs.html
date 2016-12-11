@@ -1,9 +1,23 @@
 <ion-footer-bar style="margin-left: -5px !important;">
-  <ion-tabs class="tabs-icon-only tabs-stable tabs-color-active-energized">
-    <ion-tab icon-off="ion-chatbox" badge="unreadMessages" badge-style="badge-assertive" icon-on="ion-chatbox" ng-click="changeTab('messages')">
+  <ion-tabs class="tabs-icon-top tabs-stable tabs-background-calm tabs-color-light">
+    <!-- Search Tab -->
+    <ion-tab title="SEARCH" icon-off="ion-ios-search-strong" icon-on="ion-ios-search-strong" ng-click="changeTab('search')" >
+      <ion-nav-view name="tab-search"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab title="MY ITEMS" icon-off="ion-bag" icon-on="ion-bag" ng-click="changeTab('myitems')">
+      <ion-nav-view name="tab-my-items"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="MY TRIPS" icon-off="ion-paper-airplane" icon-on="ion-paper-airplane" ng-click="changeTab('mytrips')">
+      <ion-nav-view name="tab-my-trips"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="INBOX" icon-off="ion-ios-chatboxes-outline" badge="unreadMessages" badge-style="badge-assertive" icon-on="ion-ios-chatboxes-outline" ng-click="changeTab('messages')">
       <ion-nav-view name="tab-chats"></ion-nav-view>
     </ion-tab>
-    <ion-tab icon-off="ion-chatboxes" badge="unreadGroupMessages" badge-style="badge-assertive" icon-on="ion-chatboxes" ng-click="changeTab('groups')">
+    <ion-tab title="PROFILE" icon-off="ion-ios-person-outline"  icon-on="ion-ios-person-outline" ng-click="changeTab('profile')">
+      <ion-nav-view name="tab-profile"></ion-nav-view>
+    </ion-tab>
+    <!-- <ion-tab icon-off="ion-chatboxes" badge="unreadGroupMessages" badge-style="badge-assertive" icon-on="ion-chatboxes" ng-click="changeTab('groups')">
       <ion-nav-view name="tab-dash"></ion-nav-view>
     </ion-tab>
     <ion-tab icon-off="ion-ios-people" badge="friendRequestsCount" badge-style="badge-assertive" icon-on="ion-ios-people" ng-click="changeTab('friends')">
@@ -11,6 +25,6 @@
     </ion-tab>
     <ion-tab icon-off="ion-gear-b" icon-on="ion-gear-b" ng-click="changeTab('profile')">
       <ion-nav-view name="tab-account"></ion-nav-view>
-    </ion-tab>
+    </ion-tab> -->
   </ion-tabs>
 </ion-footer-bar>

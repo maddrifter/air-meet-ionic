@@ -16,8 +16,8 @@
            </label>
        </div>
        <div class="btn-holder relative-pos">
-         <input type="submit" class="button button-clear button-block button-light" value="Login" ng-disabled="loginForm.$invalid">
-         <a href="#/register" class="button button-calm button-block shadow  animated bounceIn">Register</a>
+         <button type="submit" class="button button-clear button-block button-light" value="Login" ng-disabled="loginForm.$invalid">Login</button>
+         <button ng-click="goRegister()" class="button button-calm button-block shadow animated bounceIn">Register</button>
        </div>
     </form>
     <!--footer-->

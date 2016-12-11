@@ -114,10 +114,10 @@ h4 a {
 
 /* Tabs */
 
-.tab-item {
+/*.tab-item {
   color: #ffc900 !important;
   opacity: 0.5;
-}
+}*/
 
 /* Custom CSS Helpers */
 .energized {
@@ -495,9 +495,87 @@ h4 a {
 .rm-margin {
     margin: 0px;
 }
+.rm-padding {
+    padding : 0px !important;
+}
 .b-margin-6vh {
   margin-bottom: 6vh !important;
 }
 .relative-pos {
   position: relative;
+}
+
+.tab-item .icon:before {
+   font-weight: 600;
+}
+.tab-item span.tab-title {
+  font-size: 11px ;
+  font-weight: 600 ;
+}
+.one-third-height {
+   height: 33.33%;
+   position: relative;
+}
+.search-bar {
+  margin : 1vh 4vw;
+  background: #efefef;
+  width: 100%
+}
+.fit-height {
+  height: 100%;
+}
+.fit {
+  width: 100% !important;
+  height: 100% !important;
+}
+.transparent {
+  background: transparent
+}
+.border-radius-0 {
+  border-radius: 0px !important;
+}
+.margin-bottom0 {
+  margin-bottom: 0px !important;
+}
+.padding-bottom10 {
+  padding-bottom: 10px !important;
+}
+.border-bottom-gray {
+  border-bottom: 1px solid #3e3e3e;
+}
+.one-eighth-height {
+  height: 12.5vh !important;
+}
+.one-tenth-height {
+  height: 10vh !important;
+}
+.one-forth-height {
+  height: 25%;
+}
+.one-half-width {
+  width : 50%;
+  float: left;
+}
+.padding-left40{
+  padding-left: 40px;
+}
+.margin-top30 {
+  margin-top: 30px;
+}
+.line-height-75 {
+  line-height: 75px;
+}
+.item.item-icon-right.border-horizontal {
+  border:1px solid #fff;
+  border-bottom: 1px solid #ababab;
+  border-top: 1px solid #ababab;
+}
+.font-2x {
+  font-size : 2.4vh !important;
+}
+.font-1x {
+  font-size: 1.2vh !important;
+}
+.font-3x {
+  font-size: 3.6vh !important;
 }

@@ -4397,7 +4397,10 @@ a.subdued {
   .tabs.tabs-light .tab-item .badge {
     background-color: #444;
     color: #fff; }
-
+.tabs-stable > .tabs {
+    height: 65px;
+    padding-top: 10px;
+}
 .tabs-stable > .tabs,
 .tabs.tabs-stable {
   border-color: #b2b2b2;
@@ -6347,17 +6350,17 @@ button.item.item-button-right {
 .item-thumbnail-left,
 .item-thumbnail-left .item-content {
   padding-top: 8px;
-  padding-left: 106px;
+  padding-left: 90px;
   min-height: 100px; }
   .item-thumbnail-left > img:first-child,
   .item-thumbnail-left .item-image,
   .item-thumbnail-left .item-content > img:first-child,
   .item-thumbnail-left .item-content .item-image {
     position: absolute;
-    top: 10px;
+    top: 15px;
     left: 10px;
-    max-width: 80px;
-    max-height: 80px;
+    max-width: 70px;
+    max-height: 70px;
     width: 100%;
     height: 100%; }
 
@@ -9954,7 +9957,7 @@ h5 {
 
 .button-block {
   border-radius: 40px;
-  min-height: 45px;
+  min-height: 8vh;
   line-height: 36px; }
 
 .login-1 h1,
@@ -10078,7 +10081,7 @@ h5 {
     color: #a1a6bb;
     padding-bottom: 1vh !important;
     padding-top:1vh !important;
-    margin-bottom: 10px; }
+    margin-bottom: 1.2vh; }
 
 .login-8 {
   background-image: linear-gradient(-180deg, #343A74 0%, #092048 100%);
@@ -10283,3 +10286,9 @@ h5 {
       border-top-left-radius: 7px;
       border-top-right-radius: 7px;
       padding-bottom: 30px; }
+.tab-item .icon {
+  margin-bottom: 2px;
+}
+.tabs-stable > .tabs > a {
+  padding-top : 8px;
+}

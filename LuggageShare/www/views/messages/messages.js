@@ -20,6 +20,8 @@ angular.module('App').controller('messagesController', function($scope, $state, 
   };
 
   $scope.$on('$ionicView.enter', function() {
+
+    $scope.mode = "Chats";
     //Check if there's an authenticated user, if there is non, redirect to login.
     if (firebase.auth().currentUser) {
       //Set status to online or offline on Firebase.
@@ -72,7 +74,7 @@ angular.module('App').controller('messagesController', function($scope, $state, 
     }
 
     //Set mode to Messages.
-    $scope.mode = 'Messages';
+    // $scope.mode = 'Messages';
 
     //Notify whenever there are new messages.
     $scope.$watch(function() {
@@ -98,7 +100,7 @@ angular.module('App').controller('messagesController', function($scope, $state, 
     //Disable canChangeView to disable automatically restating to other route whenever Firebase Watcher calls are triggered.
     $scope.canChangeView = false;
     //Select the 1st tab on the footer to highlight the messages icon.
-    $ionicTabsDelegate.select(0);
+    $ionicTabsDelegate.select(3);
   });
 
   //Change mode to Compose message.

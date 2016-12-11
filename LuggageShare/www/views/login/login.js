@@ -116,7 +116,7 @@ angular.module('App').controller('loginController', function($scope, $state, $lo
               firebase.database().ref('accounts/' + account.key).on('value', function(response) {
                 var account = response.val();
                 $localStorage.account = account;
-                $state.go('messages');
+                $state.go('search');
               });
             });
           }
@@ -154,7 +154,7 @@ angular.module('App').controller('loginController', function($scope, $state, $lo
       .then(function(response) {
         Utils.hide();
         $localStorage.isGuest = true;
-        $state.go('messages');
+        $state.go('search');
       })
       .catch(function(error) {
         var errorCode = error.code;
@@ -174,7 +174,7 @@ angular.module('App').controller('loginController', function($scope, $state, $lo
           firebase.database().ref('accounts/' + account.key).on('value', function(response) {
             var account = response.val();
             $localStorage.account = account;
-            $state.go('messages');
+            $state.go('search');
           });
         });
       } else {
@@ -232,6 +232,10 @@ angular.module('App').controller('loginController', function($scope, $state, $lo
         Utils.message(Popup.errorIcon, Popup.errorLogin);
         break;
     }
+  };
+
+  $scope.goRegister = function() {
+    $state.go('register');
   };
 
 });

@@ -91,11 +91,12 @@ angular.module('App').controller('registerController', function($scope, $state, 
     firebase.database().ref('accounts/' + key).on('value', function(response) {
       var account = response.val();
       $localStorage.account = account;
-      $state.go('messages');
+      $state.go('search');
     });
   };
 
   $scope.back = function() {
+    console.log("Go back Login");
     $state.go('login');
   };
 });

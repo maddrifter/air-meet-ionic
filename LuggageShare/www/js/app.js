@@ -112,7 +112,39 @@ angular.module('App', ['ionic', 'ngStorage', 'ngCordovaOauth', 'ngCordova', 'ion
         templateUrl: 'views/profile/profile.html',
         controller: 'profileController'
       })
-    $urlRouterProvider.otherwise("/register");
+
+      .state('search', {
+        url : '/search',
+        templateUrl: 'views/search/search.html',
+        controller: 'searchController'
+      })
+      .state('searchDetail', {
+        url : '/searchdetail',
+        templateUrl: 'views/searchDetail/search-detail.html',
+        controller: 'searchDetailController'
+      })
+      .state('myitems', {
+        url : '/myitems',
+        templateUrl: 'views/myitems/my-items.html',
+        controller: 'MyItemsController'
+      })
+      .state('itemDetail', {
+        url : '/itemDetail',
+        templateUrl: 'views/itemDetail/item-detail.html',
+        controller: 'ItemDetailController'
+      })
+      .state('mytrips', {
+        url : '/mytrips',
+        templateUrl: 'views/mytrips/my-trips.html',
+        controller: 'MyTripsController'
+      })
+      .state('tripDetail', {
+        url : '/tripDetail',
+        templateUrl: 'views/tripDetail/trip-detail.html',
+        controller: 'TripDetailController'
+      })
+    $urlRouterProvider.otherwise("/login");
+
   })
   .directive('imageonload', function() {
     return {

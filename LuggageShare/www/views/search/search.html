@@ -1,0 +1,55 @@
+<ion-view hide-nav-bar="true" hide-back-button="true" cache-view="false">
+  <ion-header-bar align-title="center" class="bar-calm">
+    <h1 class="title">Search</h1>
+  </ion-header-bar>
+  <ion-content class="text-center" scroll="false">
+      <ol class="search-box one-third-height">
+        <li class="row one-third-height rm-padding">
+          <div class="row search-bar rm-padding">
+            <div class="col col-20 fit-height"><img class="fit-height" src="/img/flying-off.png"></div>
+            <div class="col col-80"><input class="fit transparent" type="text" placeholder="From" ng-model="startPlace"></div>
+          </div>
+        </li>
+        <li class="row one-third-height rm-padding">
+          <div class="row search-bar rm-padding">
+            <div class="col col-20 fit-height"><img class="fit-height" src="/img/flying-on.png"></div>
+            <div class="col col-80"><input class="fit transparent" type="text" placeholder="To" ng-model="destination"></div>
+          </div>
+        </li>
+        <li class="row one-third-height rm-padding">
+          <div class="row search-bar rm-padding">
+            <div class="col col-20 fit-height"><img class="fit-height" src="/img/calendar.png"></div>
+            <div class="col col-80"><input class="fit transparent" type="date" placeholder="Date" ng-model="startDate"></div>
+          </div>
+        </li>
+      </ol>
+      <ion-list  can-swipe="listCanSwipe">
+        <!-- <ion-item class="item-avatar item-icon-right item-chat" type="item-text-wrap" ng-click="chat(message.friend, message.id)" ng-repeat="message in conversations | orderBy: 'lastActiveDate':true | messageFilter: conversationSearch">
+          <img ng-src="{{message.friend.profilePic}}">
+          <span ng-if="message.unreadMessages > 0" class="badge badge-assertive margin-top15">{{message.unreadMessages}}</span>
+          <h2 class="margin-top-5" ng-if="message.unreadMessages <= 0">{{message.friend.name}}<div class="online-on" ng-if="message.friend.online"></div></h2>
+          <p ng-if="message.unreadMessages <= 0">{{message.lastMessage}}</p>
+
+          <h2 ng-if="message.unreadMessages > 0" style="font-weight: bold;">{{message.friend.name}}<div class="online-on" ng-if="message.friend.online"></div></h2>
+          <p ng-if="message.unreadMessages > 0" style="font-weight: bold;">{{message.lastMessage}}</p>
+          <p class="font-size-85 energized margin-bottom-10">{{message.messages[message.messages.length - 1].time}}</p>
+          <p class="time-list">
+            <i class="icon ion-clock"></i> {{message.messages[message.messages.length - 1].date}}
+          </p>
+           <ion-option-button class="button-assertive" ng-click="delete(message, $index)">
+            <i class="icon ion-close"></i>
+          </ion-option-button>
+        </ion-item> -->
+
+        <ion-item  class="item-avatar item-icon-right item-chat" type="item-text-wrap" ng-click="travelerDetail()">
+          <!-- ng-repeat="item in items" -->
+            <img ng-src="img/ben.png">
+            <h2>Ben Frank</h2>
+            <p>He is developer</p>
+            <ion-reorder-button class="ion-navicon"  on-reorder="reorderItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+
+          </ion-item>
+      </ion-list>
+  </ion-content>
+  <div ng-include src="'views/tabs/tabs.html'"></div>
+</ion-view>

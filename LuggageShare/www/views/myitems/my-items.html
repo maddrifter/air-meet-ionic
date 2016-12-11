@@ -1,0 +1,20 @@
+<ion-view hide-nav-bar="true" hide-back-button="true" cache-view="false">
+  <ion-header-bar align-title="left" class="bar-calm">
+    <h1 class="title">My Items</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="addItem()">Add item</button>
+    </div>
+  </ion-header-bar>
+  <ion-content class="text-center" scroll="false">
+
+    <ion-list>
+      <ion-item class="item-avatar item-icon-right item-chat" type="item-text-wrap" href="#/itemDetail">
+        <img ng-src="img/perl.png">
+        <h2>Ugg boots(3kg, 25*50*50cm)</h2>
+        <p>Status : Intransit</p>
+        <ion-reorder-button class="ion-navicon"  on-reorder="reorderItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  <div ng-include src="'views/tabs/tabs.html'"></div>
+</ion-view>
