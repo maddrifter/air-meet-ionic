@@ -1,18 +1,54 @@
 <ion-view hide-nav-bar="true" hide-back-button="true" cache-view="false">
   <ion-header-bar align-title="center" class="bar-calm">
     <div class="buttons">
-      <button class="button button-clear" ng-click="back()">Back</button>
+      <button class="button button-clear" ng-click="back()"><i class="icon ion-ios-arrow-left"></i></button>
     </div>
     <h1 class="title">Item Details</h1>
   </ion-header-bar>
-  <ion-content class="text-left" scroll="false">
-    <ion-list>
-      <ion-item class="item item-icon-right text-left">
-        <h2 class="text-left">From</h2>
-        <p>Sydney</p>
-      </ion-item>
-
-    </ion-list>
+  <ion-content class="text-left gray-background" scroll="false">
+    <div class="two-third-height">
+      <ion-list>
+        <ion-item class="fit-height item-avatar item-icon-right item-chat text-left item-divider clear-padding-margin" type="item-text-wrap" href="#/itemDetail">
+          <img ng-src="img/perl.png">
+          <h2 class="text-left margin-left10 font-2x-4">Ugg boots</h2>
+        </ion-item>
+        <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
+          <h2 class="text-left font-2x">Quantity</h2>
+          <input class="input-flex" type="text" readonly="readonly" value="1">
+        </ion-item>
+        <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
+          <h2 class="text-left font-2x">Weight</h2>
+          <input class="input-flex" type="text" readonly="readonly"  value="3kg">
+        </ion-item>
+        <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
+          <h2 class="text-left font-2x">Dimensions</h2>
+          <input class="input-flex" type="text" readonly="readonly" value="25 * 20 * 15 cm">
+        </ion-item>
+        <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
+          <h2 class="text-left font-2x">Description</h2>
+          <input class="input-flex" type="text" readonly="readonly" value="Pair of new ugg boots for my young niece">
+        </ion-item>
+        <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
+          <h2 class="text-left font-2x">Rewards</h2>
+          <input class="input-flex" type="text" readonly="50$" value="Sydney">
+        </ion-item>
+      </ion-list>
+    </div>
+    <div class="gray-background">
+      <div class="item item-avatar-right transparent clear-border padding-vertical-1vh">
+          <h2 class="item-content text-right ">Delivered by Fredrick</h2>
+          <img class="item-image" ng-src="img/max.png">
+      </div>
+      <form name="RatingFrom" class="padding-horizontal margin-top-2vh" ng-submit="rating()">
+        <div class="list">
+          <ionic-ratings class="text-left rating-box" ratingsobj='ratingsObject' index='0'></ionic-ratings>
+          <label class="item item-input item-clear clear-border">
+            <input name="feedback" type="text">
+          </label>
+          <input type="submit" class="button button-block button-assertive rate-button" value="Rate your experience">
+        </div>
+      </form>
+    </div>
   </ion-content>
   <div ng-include src="'views/tabs/tabs.html'"></div>
 </ion-view>

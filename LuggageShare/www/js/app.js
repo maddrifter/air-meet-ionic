@@ -1,5 +1,5 @@
 'Use Strict';
-angular.module('App', ['ionic', 'ngStorage', 'ngCordovaOauth', 'ngCordova', 'ionic.cloud'])
+angular.module('App', ['ionic', 'ngStorage', 'ngCordovaOauth', 'ngCordova', 'ionic.cloud', 'ionic-ratings'])
   // For Facebook:
   // Make sure you have enabled Facebook as a Sign-In Method at your app's Firebase Console, insert your App ID and App Secret found from your Facebook app at https://developers.facebook.com.
   // Add http://localhost/callback as Valid OAuth redirect URIs at your Facebook Login Settings of your Facebook app.

@@ -27,4 +27,21 @@ angular.module('App').controller('ItemDetailController', function($scope, $state
     $scope.canChangeView = true;
     $state.go("myitems");
   }
+
+  $scope.ratingsObject = {
+        iconOn: 'ion-ios-star',    //Optional
+        iconOff: 'ion-ios-star-outline',   //Optional
+        iconOnColor: 'rgb(200, 200, 100)',  //Optional
+        iconOffColor:  'rgb(200, 100, 100)',    //Optional
+        rating:  2, //Optional
+        minRating:1,    //Optional
+        readOnly: true, //Optional
+        callback: function(rating, index) {    //Mandatory
+          $scope.ratingsCallback(rating, index);
+        }
+      };
+
+      $scope.ratingsCallback = function(rating, index) {
+        console.log('Selected rating is : ', rating, ' and the index is : ', index);
+      };
 });

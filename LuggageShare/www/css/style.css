@@ -313,10 +313,10 @@ h4 a {
 .item-avatar img {
   width: 100% !important;
   height: 100% !important;
-  max-width: 60px !important;
-  max-height: 60px !important;
-  min-height: 60px !important;
-  min-width: 60px !important;
+  max-width: 8vh !important;
+  max-height: 8vh !important;
+  min-height: 8vh !important;
+  min-width: 8vh !important;
   object-fit: cover;
   margin-left: -6px;
   margin-top: -8px;
@@ -540,6 +540,16 @@ h4 a {
 .padding-bottom10 {
   padding-bottom: 10px !important;
 }
+.padding-bottom0 {
+  padding-bottom: 0px !important;
+}
+.padding-top0{
+  padding-top:0px !important;
+}
+.padding-vertical-1vh {
+  padding-bottom: 1vh !important;
+  padding-top:1vh !important;
+}
 .border-bottom-gray {
   border-bottom: 1px solid #3e3e3e;
 }
@@ -567,15 +577,88 @@ h4 a {
 }
 .item.item-icon-right.border-horizontal {
   border:1px solid #fff;
-  border-bottom: 1px solid #ababab;
-  border-top: 1px solid #ababab;
+  border-bottom: 1px solid #ececec;
+  border-top: 1px solid #ececec;
 }
 .font-2x {
-  font-size : 2.4vh !important;
+  font-size : 2.6vh !important;
+}
+.font-2x-4 {
+  font-size: 3vh !important;
+  font-weight: 800 !important;
 }
 .font-1x {
-  font-size: 1.2vh !important;
+  font-size: 1.3vh !important;
 }
 .font-3x {
-  font-size: 3.6vh !important;
+  font-size: 3.9vh !important;
+}
+.one-third-height {
+  position: relative;
+  height: 30%;
+}
+/*.two-third-height {
+  height: 60%;
+  position: relative;
+}*/
+.item.item-divider a {
+  background: transparent;
+}
+.clear-padding-vertical {
+  padding-bottom: 0px !important;
+  padding-top: 0px !important;
+}
+.input-flex{
+  height: 3.6vh !important;
+  font-size : 2.4vh !important;
+  margin-bottom: 0.8vh !important;
+  background: transparent !important;
+  color: #d33243 !important;
+  width : 100%
+}
+div.two-third-height ion-list div.list {
+  border-bottom:2px solid #cacaca;
+  background: white;
+}
+.gray-background{
+  background: #ececec;
+}
+.transparent{
+  background: transparent !important;
+}
+.gray-background .item-avatar-right , .gray-background .item-avatar-right .item-content {
+  padding-right: 6vh;
+  line-height: 8vh;
+  min-height: 8vh;
+  font-size: 2.8vh;
+}
+.gray-background .clear-border{
+  border-width: 0px !important;
+}
+/*.ionic_ratings .read_only {
+    pointer-events:none !important;
+}*/
+.rating-box {
+  font-size: 4vh ;
+  line-height:  5vh;
+}
+form.padding-horizontal {
+  padding-right: 5vw;
+  padding-left: 5vw;
+}
+.row.padding-horizontal {
+  padding-right: 5vw;
+  padding-left:  5vw;
+}
+.button.button-block.rate-button {
+  border-radius : 1vh;
+  height: 6vh;
+  min-height: 6vh !important;
+}
+.margin-top-2vh {
+  margin-top : -2.2vh;
+}
+.padding-vertical-2vh {
+  padding-top : 2vh !important;
+  padding-bottom: 2vh !important;
 }
