@@ -139,7 +139,7 @@ angular.module('App', ['ionic', 'ngStorage', 'ngCordovaOauth', 'ngCordova', 'ion
         controller: 'MyTripsController'
       })
       .state('tripDetail', {
-        url : '/tripDetail',
+        url : '/tripDetail/:mode?index',
         templateUrl: 'views/tripDetail/trip-detail.html',
         controller: 'TripDetailController'
       })

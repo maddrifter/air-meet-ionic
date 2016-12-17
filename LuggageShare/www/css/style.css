@@ -662,3 +662,7 @@ form.padding-horizontal {
   padding-top : 2vh !important;
   padding-bottom: 2vh !important;
 }
+.stretch-80{
+   position: relative;
+   width: 80%;
+}

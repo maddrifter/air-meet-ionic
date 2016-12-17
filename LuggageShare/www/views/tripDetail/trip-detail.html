@@ -6,7 +6,42 @@
     <h1 class="title">Trip Details</h1>
   </ion-header-bar>
   <ion-content class="text-center" scroll="false">
-    <div>Trip Details</div>
+    <div>
+      <ion-list>
+        <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
+          <h2 class="text-left font-2x">From</h2>
+          <input class="input-flex" type="text" ng-model="tripInfo.from">
+        </ion-item>
+        <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
+          <h2 class="text-left font-2x">To</h2>
+          <input class="input-flex" type="text"  ng-model="tripInfo.to">
+        </ion-item>
+        <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
+          <h2 class="text-left font-2x">Date/Time</h2>
+          <input class="input-flex" type="date" ng-model="tripInfo.dateTime">
+        </ion-item>
+        <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
+          <h2 class="text-left font-2x">Weight Available</h2>
+          <input class="input-flex" type="text" ng-model="tripInfo.weightAvailable">
+        </ion-item>
+        <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
+          <h2 class="text-left font-2x">Size Available</h2>
+          <input class="input-flex" type="text" ng-model="tripInfo.sizeAvailable">
+        </ion-item>
+        <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
+          <h2 class="text-left font-2x">Mode of transport</h2>
+          <input class="input-flex" type="text" ng-model="tripInfo.modeOfTransport">
+        </ion-item>
+        <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
+          <h2 class="text-left font-2x">Flight number</h2>
+          <input class="input-flex" type="text"  ng-model="tripInfo.flightNumber">
+        </ion-item>
+      </ion-list>
+  </div>
+  <div  class="btn-group row">
+    <div class="col"><button class="button button-small button-assertive stretch-80 font-2x"  ng-click="saveTrip()">Save</button></div>
+    <div class="col"><button class="button button-small button-assertive  stretch-80 font-2x"  ng-click="cancel()">Cancel</button></div>
+  </div>
   </ion-content>
   <div ng-include src="'views/tabs/tabs.html'"></div>
 </ion-view>
