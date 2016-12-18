@@ -129,7 +129,7 @@ angular.module('App', ['ionic', 'ngStorage', 'ngCordovaOauth', 'ngCordova', 'ion
         controller: 'MyItemsController'
       })
       .state('itemDetail', {
-        url : '/itemDetail',
+        url : '/itemDetail/:mode?index',
         templateUrl: 'views/itemDetail/item-detail.html',
         controller: 'ItemDetailController'
       })

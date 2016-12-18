@@ -5,9 +5,7 @@
 // Afterwhich, an account will be saved on the Firebase Database which is independent from the Firebase Auth and Social Auth accounts.
 // If the user is previously logged in and the app is closed, the user is automatically logged back in whenever the app is reopened.
 'Use Strict';
-angular.module('App').controller('loginController', loginController);
-
-var loginController = function($scope, $state, $localStorage, Social, Utils, $cordovaOauth, Popup) {
+angular.module('App').controller('loginController', function($scope, $state, $localStorage, Social, Utils, $cordovaOauth, Popup) {
   $scope.$on('$ionicView.enter', function() {
     //Clear the Login Form.
     $scope.user = {
@@ -239,4 +237,4 @@ var loginController = function($scope, $state, $localStorage, Social, Utils, $co
   $scope.goRegister = function() {
     $state.go('register');
   };
-};
+});

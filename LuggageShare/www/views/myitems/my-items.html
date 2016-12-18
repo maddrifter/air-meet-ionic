@@ -2,16 +2,16 @@
   <ion-header-bar align-title="left" class="bar-calm">
     <h1 class="title">My Items</h1>
     <div class="buttons">
-      <button class="button button-clear" ng-click="addItem()">Add item</button>
+      <button class="button button-clear" ng-click="itemDetail('Add')">Add item</button>
     </div>
   </ion-header-bar>
   <ion-content class="text-center" scroll="false">
 
     <ion-list>
-      <ion-item class="item-avatar item-icon-right item-chat text-left" type="item-text-wrap" href="#/itemDetail">
+      <ion-item class="item-avatar item-icon-right item-chat text-left" type="item-text-wrap" ng-click="itemDetail('Edit', $index)" ng-repeat="item in items track by $index">
         <img ng-src="img/perl.png">
-        <h2 class="text-left margin-left10">Ugg boots(3kg, 25*50*50cm)</h2>
-        <p>Status : Intransit</p>
+        <h2 class="text-left margin-left10">{{item.name}}</h2>
+        <p>{{item.status}}</p>
         <i class="icon ion-chevron-right line-height-75"></i>
       </ion-item>
     </ion-list>

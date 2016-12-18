@@ -1,5 +1,5 @@
 'Use Strict';
-angular.module('App').controller('TripDetailController', function($scope, $state, $stateParams,  $ionicHistory, $ionicTabsDelegate, tripArray) {
+angular.module('App').controller('TripDetailController', function($scope, $state, $stateParams,  $ionicHistory, $ionicTabsDelegate, Service) {
   // $scope.$on('$stateChangeStart', function(event) {
   //   if (!$scope.canChangeView) {
   //     event.preventDefault();
@@ -33,12 +33,7 @@ angular.module('App').controller('TripDetailController', function($scope, $state
       if ($scope.mode == "Edit") {
         var index = $stateParams.index;
         console.log("The index of trip is " + index);
-        var trip = tripArray[index];
-        $scope.tripInfo.from = trip.from;
-        $scope.tripInfo.to = trip.to;
-        $scope.tripInfo.dateTime = new Date(trip.dateTime);
-        $scope.tripInfo.modeOfTransport = trip.modeOfTransport;
-        $scope.tripInfo.flightNumber = trip.flightNumber;
+        $scope.tripInfo = Service.getTripOf(index);
       }
 
       $ionicTabsDelegate.select(2);
@@ -53,20 +48,16 @@ angular.module('App').controller('TripDetailController', function($scope, $state
   $scope.saveTrip = function() {
     if ($scope.mode == "Edit") {
       var index = $stateParams.index;
-      tripArray[index] = $scope.tripInfo;
-      console.log(tripArray);
+      Service.replaceTrip(index, $scope.tripInfo);
     } else {
-      console.log($scope.tripInfo);
-      tripArray.push($scope.tripInfo);
       if ($scope.tripInfo.dateTime == "") {
         $scope.tripInfo.dateTime = new Date();
       }
+      Service.addTrip($scope.tripInfo);
     }
     $scope.back();
   };
-  $scope.cancel = function() {
-      $scope.back();
-  };
+
   $scope.back = function(){
     $scope.canChangeView = true;
     // $scope.clearTripInfo();

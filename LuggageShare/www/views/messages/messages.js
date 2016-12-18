@@ -22,79 +22,18 @@ angular.module('App').controller('messagesController', function($scope, $state, 
   $scope.$on('$ionicView.enter', function() {
 
     $scope.mode = "Chats";
-    //Check if there's an authenticated user, if there is non, redirect to login.
-    if (firebase.auth().currentUser) {
-      //Set status to online or offline on Firebase.
-      $scope.loggedIn = true;
-      $ionicPlatform.ready(function() {
-        document.addEventListener("deviceready", function() {
-          if ($localStorage.accountId) {
-            firebase.database().ref('accounts/' + $localStorage.accountId).update({
-              online: true
-            });
-          }
-        }, false);
-        document.addEventListener("resume", function() {
-          if ($localStorage.accountId) {
-            firebase.database().ref('accounts/' + $localStorage.accountId).update({
-              online: true
-            });
-          }
-        }, false);
-        document.addEventListener("pause", function() {
-          if ($localStorage.accountId) {
-            firebase.database().ref('accounts/' + $localStorage.accountId).update({
-              online: false
-            });
-          }
-        }, false);
-      });
-    } else {
-      $scope.loggedIn = false;
-      $state.go('login');
-    }
 
-    //Check if Watchers already attached, if not, reload to reload all controllers and attach the watcher once. Watchers should only be attached ONCE.
-    if (!Watchers.watchersAttached()) {
-      //Initialize Service and Watchers
-      $scope.conversations = [];
-      $scope.conversations = Service.getConversationList();
-
-      $scope.friends = [];
-      $scope.friends = Service.getFriendList();
-
-      console.log("Attaching Watchers");
-      Watchers.addUsersWatcher();
-      Watchers.addProfileWatcher($localStorage.accountId);
-      Watchers.addNewFriendWatcher($localStorage.accountId);
-      Watchers.addNewConversationWatcher($localStorage.accountId);
-      Watchers.addFriendRequestsWatcher($localStorage.accountId);
-      Watchers.addRequestsSentWatcher($localStorage.accountId);
-      Watchers.addNewGroupWatcher($localStorage.accountId);
-    }
 
     //Set mode to Messages.
     // $scope.mode = 'Messages';
+    $scope.comversations = [];
+    $scope.conversations = Service.getConversationList();
 
     //Notify whenever there are new messages.
     $scope.$watch(function() {
       return Service.getUnreadMessages();
     }, function(unreadMessages) {
       $scope.unreadMessages = unreadMessages;
-    });
-
-    //Notify whenever there are new friend requests.
-    $scope.$watch(function() {
-      return Service.getFriendRequestsCount();
-    }, function(friendRequests) {
-      $scope.friendRequestsCount = friendRequests;
-    });
-
-    //Notify whenever there are new group messages.
-    $scope.$watch(function() {
-      return Service.getUnreadGroupMessages();
-    }, function(unreadGroupMessages) {
-      $scope.unreadGroupMessages = unreadGroupMessages;
     });
 
     //Disable canChangeView to disable automatically restating to other route whenever Firebase Watcher calls are triggered.
@@ -104,14 +43,14 @@ angular.module('App').controller('messagesController', function($scope, $state, 
   });
 
   //Change mode to Compose message.
-  $scope.compose = function() {
-    $scope.mode = 'Compose';
-  };
+  // $scope.compose = function() {
+  //   $scope.mode = 'Compose';
+  // };
 
   //Change mode to view messages.
-  $scope.cancel = function() {
-    $scope.mode = 'Messages';
-  };
+  // $scope.cancel = function() {
+  //   $scope.mode = 'Messages';
+  // };
 
   //Chat selected friend.
   $scope.chat = function(friend) {

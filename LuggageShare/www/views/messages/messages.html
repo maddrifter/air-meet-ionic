@@ -9,8 +9,8 @@
       <button class="button button-block button-clear button-calm margin-top0  border-radius-0 margin-bottom0" ng-click="mode = 'Requests'">Requests</button>
     </div>
     <div ng-show="mode == 'Chats'">
-      <!-- <div ng-if="mode == 'Messages'">
-        <div class="row margin-bottom-15">
+      <div>
+        <!-- <div class="row margin-bottom-15">
           <div class="col col-75 clear-padding-margin">
             <label class="item item-input item-searchbar">
               <i class="icon ion-ios-search"></i>
@@ -22,7 +22,7 @@
               <button class="button button-clear button-energized" ng-click="conversationSearch = undefined"><i class="icon ion-android-close"></i></button>
             </div>
           </div>
-        </div>
+        </div> -->
         <ion-list>
           <ion-item class="item-avatar item-icon-right item-chat" type="item-text-wrap" ng-click="chat(message.friend, message.id)" ng-repeat="message in conversations | orderBy: 'lastActiveDate':true | messageFilter: conversationSearch">
             <img ng-src="{{message.friend.profilePic}}">
@@ -41,7 +41,7 @@
             </ion-option-button>
           </ion-item>
         </ion-list>
-      </div> -->
+      </div>
 
       <!-- <div ng-if="mode == 'Compose'">
         <div class="row margin-bottom-15">

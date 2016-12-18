@@ -14,7 +14,9 @@ angular.module('App').service('Service', function($localStorage) {
     unreadGroupMessages: 0,
     friendRequestList: [],
     requestSentList: [],
-    friendRequests: 0
+    friendRequests: 0,
+    myTripList: [],
+    myItemList: [],
   };
   this.clearData = function() {
     data.usersList = [];
@@ -29,6 +31,8 @@ angular.module('App').service('Service', function($localStorage) {
     data.friendRequestList = [];
     data.requestSentList = [];
     data.friendRequests = 0;
+    data.myTripList = [];
+    data.myItemList = [];
   };
   //Add user to the usersList, only adds if user doesn't exist yet.
   this.addUser = function(profile) {
@@ -41,12 +45,53 @@ angular.module('App').service('Service', function($localStorage) {
       if(profile.name && profile.username)
         data.usersList.push(profile);
     }
-
   };
   //Return usersList.
   this.getUsersList = function() {
     return data.usersList;
   };
+  //----  Control Trip List  -----//
+  //Add Trip
+  this.addTrip = function(trip) {
+     data.myTripList.push(trip);
+  }
+  //Edit Trip
+  this.replaceTrip = function(index, trip) {
+    data.myTripList[index] = trip;
+  }
+  //Remove Trip
+  this.removeTrip = function(index){
+    data.myTripList.splice(index, 1);
+  }
+  //Get TripList
+  this.getTripList =  function() {
+    return data.myTripList;
+  }
+  this.getTripOf = function(index) {
+    return data.myTripList[index];
+  }
+  //----  Control My ItemList  -----//
+  //Get myItemList
+  this.getMyItemList = function(){
+    return data.myItemList;
+  }
+  //Get a Item of index
+  this.getItemOf = function(index){
+    return data.myItemList[index];
+  }
+  //Add a Item
+  this.addItem =  function(item){
+    data.myItemList.push(item);
+  }
+  //Remove a Item
+  this.removeItem = function(index){
+    data.myItemList.splice(index, 1);
+  }
+  //Edit a Item
+  this.replaceItem = function(index, newItem){
+    data.myItemList[index] = newItem;
+  }
+
   //Add to excludedIds, excludedIds are ids that should not show up on search Users. Your own profile and your existing friends are excludedIds.
   this.addExcludedIds = function(id) {
     data.excludedIds.push(id);

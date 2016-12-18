@@ -50,6 +50,19 @@ angular.module('App').factory('Watchers', function($localStorage, $filter, $time
         eventType: 'child_added'
       });
     },
+    addTripWatcher:function(){
+      var ref = firebase.database().ref('trips');
+      var callback = ref.on('child_added', function(trip) {
+        var trip = {
+          from : trip.val().from,
+          to : trip.val().to,
+          date : $filter('date')(new Date(trip.val().dateTime), 'dd MMM, yyyy')
+        };
+        $timeout(function(){
+          Service.addTrip(trip);
+        });
+      });
+    },
     //Watcher responsible for adding and updating the user's profile to the service.
     addProfileWatcher: function(accountId) {
       var ref = firebase.database().ref('accounts/' + accountId);
@@ -292,7 +305,7 @@ angular.module('App').factory('Watchers', function($localStorage, $filter, $time
         $timeout(function() {
           Service.removeFriendRequest(friendId);
           Service.removeFromExcludedIds(friendId);
-          
+
         });
       });
       //Add watcher to the watchers list to be cleared later when user logged out.

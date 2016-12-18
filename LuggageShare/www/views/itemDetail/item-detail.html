@@ -14,40 +14,43 @@
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Quantity</h2>
-          <input class="input-flex" type="text" readonly="readonly" value="1">
+          <input class="input-flex" type="text" ng-model="itemInfo.quantity">
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Weight</h2>
-          <input class="input-flex" type="text" readonly="readonly"  value="3kg">
+          <input class="input-flex" type="text" ng-model="itemInfo.weight">
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Dimensions</h2>
-          <input class="input-flex" type="text" readonly="readonly" value="25 * 20 * 15 cm">
+          <input class="input-flex" type="text" ng-model="itemInfo.dimension" placeholder="dimension">
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Description</h2>
-          <input class="input-flex" type="text" readonly="readonly" value="Pair of new ugg boots for my young niece">
+          <input class="input-flex" type="text" ng-model="itemInfo.description" placeholder="description">
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Rewards</h2>
-          <input class="input-flex" type="text" readonly="50$" value="Sydney">
+          <input class="input-flex" type="text" ng-model="itemInfo.reward">
         </ion-item>
       </ion-list>
     </div>
-    <div class="gray-background">
+    <div class="gray-background" ng-if="mode=='Edit'">
       <div class="item item-avatar-right transparent clear-border padding-vertical-1vh">
           <h2 class="item-content text-right ">Delivered by Fredrick</h2>
           <img class="item-image" ng-src="img/max.png">
       </div>
       <form name="RatingFrom" class="padding-horizontal margin-top-2vh" ng-submit="rating()">
         <div class="list">
-          <ionic-ratings class="text-left rating-box" ratingsobj='ratingsObject' index='0'></ionic-ratings>
+          <ionic-ratings class="text-left rating-box" ratingsobj='ratingsObject' index='0'>{{itemInfo.rating}}</ionic-ratings>
           <label class="item item-input item-clear clear-border">
             <input name="feedback" type="text">
           </label>
           <input type="submit" class="button button-block button-assertive rate-button" value="Rate your experience">
         </div>
       </form>
+    </div>
+    <div  class="btn-group row" style='text-align:center;' ng-if="mode=='Add'">
+      <div class="col"><button class="button button-small button-assertive stretch-80 font-2x"  ng-click="saveItem()">Save</button></div>
     </div>
   </ion-content>
   <div ng-include src="'views/tabs/tabs.html'"></div>
