@@ -6,6 +6,14 @@ angular.module('App').controller('searchController', function($scope, $state,  $
   //   }
   // });
 
+  var placeFlag = 0, destinationFlag = 0, dateFlag = 0;
+
+  $scope.searchObj = {
+    startPlace: '',
+    destination: '',
+    startDate: new Date()
+  };
+
   //Allow changing to other views when tabs is selected.
   $scope.changeTab = function(stateTo) {
     $ionicHistory.nextViewOptions({
@@ -15,8 +23,9 @@ angular.module('App').controller('searchController', function($scope, $state,  $
     $state.go(stateTo);
   };
 
-
   $scope.$on('$ionicView.enter', function() {
+
+      $scope.searchKeys = [];
 
       $scope.searchedTrips = [];
       $scope.searchedTrips = Service.getSearchedTripsList();
@@ -67,9 +76,44 @@ angular.module('App').controller('searchController', function($scope, $state,  $
         // Watchers.addNewGroupWatcher($localStorage.accountId);
       }
 
-      $scope.$watch(function(){
-
+      $scope.$watch('searchObj.startPlace', function(newValue){
+        console.log('=====', newValue);
+        if (newValue.length > 0) {
+          placeFlag = 1;
+        } else {
+          placeFlag = 0;
+        }
+        triggerFirebaseSearch();
       });
+
+      $scope.$watch('searchObj.destination', function(newValue){
+        console.log('=====', newValue);
+        if (newValue.length > 0) {
+          destinationFlag = 1;
+        } else {
+          destinationFlag = 0;
+        }
+        triggerFirebaseSearch();
+      });
+
+      $scope.$watch('searchObj.startDate', function(newValue){
+        triggerFirebaseSearch();
+        console.log('======', newValue);
+      });
+
+      var triggerFirebaseSearch = function() {
+        if (destinationFlag * placeFlag == 1){
+          console.log("=====API Request");
+           updateTripsList();
+        }
+      };
+      var updateTripsList = function() {
+        var tripsRef = firebase.database().ref("trips/").once('value', function(allTripsRef){
+           var allTrips = allTripsRef.val();
+           console.log(allTrips);
+        })
+
+      };
 
       $scope.changedProfilePic = false;
       // Disable canChangeView to disable automatically restating to messages route whenever Firebase Watcher calls are triggered.
@@ -77,6 +121,10 @@ angular.module('App').controller('searchController', function($scope, $state,  $
       // Select the 4th tab on the footer to highlight the profile icon.
       $ionicTabsDelegate.select(0);
   });
+
+  var updateSearchKeys = function(key, value){
+
+  };
 
   $scope.travelerDetail = function() {
     $ionicHistory.nextViewOptions({ disableAnimate : true});
