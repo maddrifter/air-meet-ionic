@@ -50,17 +50,76 @@ angular.module('App').factory('Watchers', function($localStorage, $filter, $time
         eventType: 'child_added'
       });
     },
-    addTripWatcher:function(){
-      var ref = firebase.database().ref('trips');
-      var callback = ref.on('child_added', function(trip) {
-        var trip = {
-          from : trip.val().from,
-          to : trip.val().to,
-          date : $filter('date')(new Date(trip.val().dateTime), 'dd MMM, yyyy')
-        };
-        $timeout(function(){
-          Service.addTrip(trip);
+    //Watcher responsible for adding and updating myTripList
+    addMyTripWatcher: function(accountId) {
+      var ref = firebase.database().ref('accounts/' + accountId).child('myTrips');
+      var callback = ref.on('child_added', function(tripId){
+        var tripIdValue = tripId.val().trip;
+        var tripRef = firebase.database().ref('trips/' + tripIdValue);
+        var tripRefValue = tripRef.on('value', function(trip){
+          var tripValue = trip.val();
+          var trip = {
+              from : tripValue.trip.from,
+              to : tripValue.trip.to,
+              dateTime : $filter('date')(new Date(tripValue.trip.dateTime), 'dd MMM yyyy'),
+              weightAvailable : tripValue.trip.weightAvailable,
+              sizeAvailable : tripValue.trip.sizeAvailable,
+              flightNumber: tripValue.trip.flightNumber,
+              modeOfTransport : tripValue.trip.modeOfTransport,
+              id : tripIdValue
+          };
+          $timeout(function(){
+            Service.addTrip(trip);
+          });
         });
+        //Add watcher to the watchers list to be cleared later when user logged out.
+        watchers.push({
+          ref: tripRef,
+          callback : tripRefValue,
+          eventType : 'value'
+        });
+      });
+      watchers.push({
+        ref : ref,
+        callback : callback,
+        eventType : 'child_added'
+      });
+    },
+    //Whatcher responsible for adding and updating myItemList
+    addMyItmesWatcher: function(accountId) {
+      var ref = firebase.database().ref('accounts/' + accountId).child('myItems');
+      var callback = ref.on('child_added', function(myItem){
+        var itemId = myItem.val();
+        var itemRef = firebase.database().ref('items/' + itemId);
+        var itemOnValue = itemRef.on('value', function(item){
+          var itemValue = item.val();
+          var itemInfo = {
+            name : itemValue.item.name,
+            quantity : itemValue.item.quantity,
+            weight : itemValue.item.weight,
+            dimension: itemValue.item.dimension,
+            description : itemValue.item.description,
+            reward : itemValue.item.reward,
+            status : itemValue.item.status,
+            deliverer : itemValue.item.deliverer,
+            rating : itemValue.item.rating,
+            id : itemId,
+          };
+          $timeout(function(){
+            Service.addItem(itemInfo);
+          });
+        });
+        //Add watcher to the watchers list to be cleared later when user logged out.
+        watchers.push({
+          ref: itemRef,
+          callback : itemOnValue,
+          eventType : 'value'
+        });
+      });
+      watchers.push({
+        ref : ref,
+        callback : callback,
+        eventType : 'child_added'
       });
     },
     //Watcher responsible for adding and updating the user's profile to the service.
@@ -361,181 +420,6 @@ angular.module('App').factory('Watchers', function($localStorage, $filter, $time
         callback: accountRequestSentRefChildRemoved,
         eventType: 'child_removed'
       });
-    },
-    //Watcher for new groups.
-    addNewGroupWatcher: function(accountId) {
-      var ref = firebase.database().ref('accounts/' + accountId).child('groups');
-      var callback = ref.on('child_added', function(group) {
-
-        var groupId = group.val().group;
-        var messagesRead = group.val().messagesRead;
-        firebase.database().ref('groups/' + groupId).once('value', function(group) {
-          var name = group.val().name;
-          var image = group.val().image;
-
-          var messagesList = [];
-          var messages = group.val().messages;
-          for (var i = 0; i < messages.length; i++) {
-            var profilePic, messageClass;
-            if (messages[i].sender == $localStorage.accountId) {
-              profilePic = Service.getProfile().profilePic;
-              messageClass = 'self';
-            } else {
-              profilePic = Service.getProfilePic(messages[i].sender);
-              messageClass = 'other';
-            }
-            var message = {
-              time: $filter('date')(new Date(messages[i].date), 'h:mm a'),
-              date: $filter('date')(new Date(messages[i].date), 'MMM dd'),
-              rawDate: new Date(messages[i].date),
-              message: messages[i].message,
-              image: messages[i].image,
-              sender: messages[i].sender,
-              type: messages[i].type,
-              profilePic: profilePic,
-              class: messageClass
-            };
-            messagesList.push(message);
-          }
-          var unreadMessages = messages.length - messagesRead;
-
-          var group = {
-            name: name,
-            image: image,
-            messages: messagesList,
-            id: groupId,
-            unreadMessages: unreadMessages,
-            lastActiveDate: messagesList[messagesList.length - 1].rawDate
-          };
-
-          Service.addUnreadGroupMessages(unreadMessages);
-          $timeout(function() {
-            Service.addGroup(group);
-
-          });
-
-          var usersList = [];
-          //Watcher for new members on the group.
-          var groupUsersRef = firebase.database().ref('groups/' + groupId).child('users');
-          var groupUsersRefChildAdded = groupUsersRef.on('child_added', function(userId) {
-
-            var userId = userId.val();
-            if (userId == $localStorage.accountId)
-              usersList.push(Service.getProfile());
-            else
-              usersList.push(Service.getAccount(userId));
-            $timeout(function() {
-              Service.updateGroupUsers(groupId, usersList);
-
-            });
-          });
-          //Add watcher to the watchers list to be cleared later when user logged out.
-          watchers.push({
-            ref: groupUsersRef,
-            callback: groupUsersRefChildAdded,
-            eventType: 'child_added'
-          });
-
-          //Watcher for when members leave the group.
-          var groupUsersRef = firebase.database().ref('groups/' + groupId).child('users');
-          var groupUsersRefChildRemoved = groupUsersRef.on('child_removed', function(userId) {
-
-            var userId = userId.val();
-            $timeout(function() {
-              Service.removeGroupUser(groupId, userId);
-
-            });
-          });
-          //Add watcher to the watchers list to be cleared later when user logged out.
-          watchers.push({
-            ref: groupUsersRef,
-            callback: groupUsersRefChildRemoved,
-            eventType: 'child_removed'
-          });
-
-          //Watcher for changes done on the group, messages and image.
-          var groupRef = firebase.database().ref('groups/' + groupId);
-          var groupRefChildChanged = groupRef.on('child_changed', function(change) {
-            if (change.key == 'messages') {
-
-              var message = change.val()[change.val().length - 1];
-              var profilePic, messageClass;
-              if (message.sender == $localStorage.accountId) {
-                profilePic = Service.getProfile().profilePic;
-                messageClass = 'self';
-              } else {
-                profilePic = Service.getProfilePic(message.sender);
-                messageClass = 'other';
-              }
-              var message = {
-                time: $filter('date')(new Date(message.date), 'h:mm a'),
-                date: $filter('date')(new Date(message.date), 'MMM dd'),
-                message: message.message,
-                image: message.image,
-                sender: message.sender,
-                type: message.type,
-                profilePic: profilePic,
-                class: messageClass
-              };
-              $timeout(function() {
-                Service.addMessageToGroup(groupId, message);
-                $rootScope.$broadcast('messageAdded');
-
-              });
-            } else if (change.key == 'image') {
-              $timeout(function() {
-                Service.setGroupImage(groupId, change.val());
-              });
-            }
-          });
-          //Add watcher to the watchers list to be cleared later when user logged out.
-          watchers.push({
-            ref: groupRef,
-            callback: groupRefChildChanged,
-            eventType: 'child_changed'
-          });
-        });
-      });
-      //Add watcher to the watchers list to be cleared later when user logged out.
-      watchers.push({
-        ref: ref,
-        callback: callback,
-        eventType: 'child_added'
-      });
-      //Watcher for groups removed.
-      var accountGroupsRef = firebase.database().ref('accounts/' + accountId).child('groups');
-      var accountGroupsRefChildRemoved = accountGroupsRef.on('child_removed', function() {
-
-        var groupId = $localStorage.groupId;
-        $timeout(function() {
-          Service.removeGroup(groupId);
-
-        });
-      });
-      //Add watcher to the watchers list to be cleared later when user logged out.
-      watchers.push({
-        ref: accountGroupsRef,
-        callback: accountGroupsRefChildRemoved,
-        eventType: 'child_removed'
-      });
-      //Watcher for user when new groupMessages were read.
-      var accountGroupsRef = firebase.database().ref('accounts/' + accountId).child('groups');
-      var accountGroupsRefChildChanged = accountGroupsRef.on('child_changed', function(group) {
-
-        var groupId = group.val().group;
-        var messagesRead = Service.getGroupById(groupId).unreadMessages;
-        $timeout(function() {
-          Service.minusUnreadGroupMessages(messagesRead);
-          Service.setUnreadGroupMessages(groupId, 0);
-
-        });
-      });
-      //Add watcher to the watchers list to be cleared later when user logged out.
-      watchers.push({
-        ref: accountGroupsRef,
-        callback: accountGroupsRefChildChanged,
-        eventType: 'child_changed'
-      });
     }
-  };
+  }
 });

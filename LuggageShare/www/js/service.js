@@ -17,6 +17,7 @@ angular.module('App').service('Service', function($localStorage) {
     friendRequests: 0,
     myTripList: [],
     myItemList: [],
+    searchedTripsList : [],
   };
   this.clearData = function() {
     data.usersList = [];
@@ -33,6 +34,7 @@ angular.module('App').service('Service', function($localStorage) {
     data.friendRequests = 0;
     data.myTripList = [];
     data.myItemList = [];
+    data.searchedTripsList = [];
   };
   //Add user to the usersList, only adds if user doesn't exist yet.
   this.addUser = function(profile) {
@@ -51,9 +53,16 @@ angular.module('App').service('Service', function($localStorage) {
     return data.usersList;
   };
   //----  Control Trip List  -----//
-  //Add Trip
+  //Add My Trip
   this.addTrip = function(trip) {
-     data.myTripList.push(trip);
+    var index = -1;
+    for(var i = 0; i < data.myTripList.length; i++) {
+      if(data.myTripList[i].id == trip.id)
+        index = i;
+    }
+    if(index == -1) {
+      data.myTripList.push(trip);
+    }
   }
   //Edit Trip
   this.replaceTrip = function(index, trip) {
@@ -81,7 +90,14 @@ angular.module('App').service('Service', function($localStorage) {
   }
   //Add a Item
   this.addItem =  function(item){
-    data.myItemList.push(item);
+    var index = -1;
+    for(var i = 0; i < data.myItemList.length; i++) {
+      if(data.myItemList[i].id == item.id)
+        index = i;
+    }
+    if(index == -1) {
+      data.myItemList.push(item);
+    }
   }
   //Remove a Item
   this.removeItem = function(index){
@@ -91,6 +107,11 @@ angular.module('App').service('Service', function($localStorage) {
   this.replaceItem = function(index, newItem){
     data.myItemList[index] = newItem;
   }
+  //--------------SearchedTripList--------------//
+  this.getSearchedTripsList = function(){
+    return data.searchedTripsList;
+  }
+
 
   //Add to excludedIds, excludedIds are ids that should not show up on search Users. Your own profile and your existing friends are excludedIds.
   this.addExcludedIds = function(id) {

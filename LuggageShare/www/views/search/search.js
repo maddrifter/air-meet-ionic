@@ -18,6 +18,8 @@ angular.module('App').controller('searchController', function($scope, $state,  $
 
   $scope.$on('$ionicView.enter', function() {
 
+      $scope.searchedTrips = [];
+      $scope.searchedTrips = Service.getSearchedTripsList();
       //Check if there's an authenticated user, if there is non, redirect to login.
       if (firebase.auth().currentUser) {
         //Set status to online or offline on Firebase.
@@ -53,7 +55,6 @@ angular.module('App').controller('searchController', function($scope, $state,  $
       //Check if Watchers already attached, if not, reload to reload all controllers and attach the watcher once. Watchers should only be attached ONCE.
       if (!Watchers.watchersAttached()) {
         //Initialize Service and Watchers
-
         console.log("Attaching Watchers");
         Watchers.addUsersWatcher();
         Watchers.addProfileWatcher($localStorage.accountId);
@@ -61,8 +62,15 @@ angular.module('App').controller('searchController', function($scope, $state,  $
         Watchers.addNewConversationWatcher($localStorage.accountId);
         // Watchers.addFriendRequestsWatcher($localStorage.accountId);
         Watchers.addRequestsSentWatcher($localStorage.accountId);
+        Watchers.addMyTripWatcher($localStorage.accountId);
+        Watchers.addMyItmesWatcher($localStorage.accountId);
         // Watchers.addNewGroupWatcher($localStorage.accountId);
       }
+
+      $scope.$watch(function(){
+
+      });
+
       $scope.changedProfilePic = false;
       // Disable canChangeView to disable automatically restating to messages route whenever Firebase Watcher calls are triggered.
       $scope.canChangeView = false;
@@ -74,5 +82,5 @@ angular.module('App').controller('searchController', function($scope, $state,  $
     $ionicHistory.nextViewOptions({ disableAnimate : true});
     $scope.canChangeView = true;
     $state.go("searchDetail");
-  }
+  };
 });

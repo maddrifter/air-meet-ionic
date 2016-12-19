@@ -1,5 +1,5 @@
 'Use Strict';
-angular.module('App').controller('MyItemsController', function($scope, $state,  $ionicHistory, $ionicTabsDelegate, Service) {
+angular.module('App').controller('MyItemsController', function($scope, $state, $localStorage, $ionicHistory, $ionicTabsDelegate, Service) {
   // $scope.$on('$stateChangeStart', function(event) {
   //   if (!$scope.canChangeView) {
   //     event.preventDefault();
@@ -27,8 +27,11 @@ angular.module('App').controller('MyItemsController', function($scope, $state,  
       // //Select the 4th tab on the footer to highlight the profile icon.
       $ionicTabsDelegate.select(1);
   });
-  
+
   $scope.itemDetail = function(mode, index) {
+    if (mode == 'Edit'){
+      $localStorage.itemId = $scope.items[index].id;
+    }
     $state.go('itemDetail', { mode : mode, index : index});
   }
 });
