@@ -111,8 +111,15 @@ angular.module('App').service('Service', function($localStorage) {
   this.getSearchedTripsList = function(){
     return data.searchedTripsList;
   }
-
-
+  this.addSearchedTripList = function(trip){
+    data.searchedTripsList.push(trip);
+  }
+  this.removeSearchedTripList = function(){
+     data.searchedTripsList.splice(0, data.searchedTripsList.length);
+  }
+  this.getSearchedTripOf = function(index) {
+    return data.searchedTripsList[index];
+  }
   //Add to excludedIds, excludedIds are ids that should not show up on search Users. Your own profile and your existing friends are excludedIds.
   this.addExcludedIds = function(id) {
     data.excludedIds.push(id);

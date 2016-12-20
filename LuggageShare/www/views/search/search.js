@@ -8,6 +8,9 @@ angular.module('App').controller('searchController', function($scope, $state,  $
 
   var placeFlag = 0, destinationFlag = 0, dateFlag = 0;
 
+  $scope.searchedTrips = [];
+  $scope.searchedTrips = Service.getSearchedTripsList();
+
   $scope.searchObj = {
     startPlace: '',
     destination: '',
@@ -25,10 +28,6 @@ angular.module('App').controller('searchController', function($scope, $state,  $
 
   $scope.$on('$ionicView.enter', function() {
 
-      $scope.searchKeys = [];
-
-      $scope.searchedTrips = [];
-      $scope.searchedTrips = Service.getSearchedTripsList();
       //Check if there's an authenticated user, if there is non, redirect to login.
       if (firebase.auth().currentUser) {
         //Set status to online or offline on Firebase.
@@ -75,7 +74,7 @@ angular.module('App').controller('searchController', function($scope, $state,  $
         Watchers.addMyItmesWatcher($localStorage.accountId);
         // Watchers.addNewGroupWatcher($localStorage.accountId);
       }
-
+      //When input search items - startPlace , destination, startDate
       $scope.$watch('searchObj.startPlace', function(newValue){
         console.log('=====', newValue);
         if (newValue.length > 0) {
@@ -85,7 +84,6 @@ angular.module('App').controller('searchController', function($scope, $state,  $
         }
         triggerFirebaseSearch();
       });
-
       $scope.$watch('searchObj.destination', function(newValue){
         console.log('=====', newValue);
         if (newValue.length > 0) {
@@ -95,24 +93,38 @@ angular.module('App').controller('searchController', function($scope, $state,  $
         }
         triggerFirebaseSearch();
       });
-
       $scope.$watch('searchObj.startDate', function(newValue){
         triggerFirebaseSearch();
-        console.log('======', newValue);
       });
-
+      //Trigger firebase search.
       var triggerFirebaseSearch = function() {
         if (destinationFlag * placeFlag == 1){
           console.log("=====API Request");
-           updateTripsList();
+          updateTripsList();
+        } else {
+          $scope.searchedTrips.splice(0, $scope.searchedTrips.length);
         }
       };
       var updateTripsList = function() {
-        var tripsRef = firebase.database().ref("trips/").once('value', function(allTripsRef){
+        Service.removeSearchedTripList();
+        firebase.database().ref("trips/").once('value', function(allTripsRef){
            var allTrips = allTripsRef.val();
-           console.log(allTrips);
-        })
-
+           if (allTrips) {
+              for (var key in allTrips) {
+                console.log(allTrips[key]);
+                var tripInfo = allTrips[key].trip;
+                var startDate = new Date($scope.searchObj.startDate);
+                var tripDate = new Date(tripInfo.dateTime);
+                if (tripInfo.from.indexOf($scope.searchObj.startPlace) !== -1 && tripInfo.to.indexOf($scope.searchObj.destination) !== -1 && startDate <= tripDate){
+                  console.log("=======", allTrips[key]);
+                  Service.addSearchedTripList(allTrips[key]);
+                }
+              }
+           }
+           $scope.$apply(function() {
+             $scope.searchedTrips = Service.getSearchedTripsList();
+           });
+        });
       };
 
       $scope.changedProfilePic = false;
@@ -122,13 +134,9 @@ angular.module('App').controller('searchController', function($scope, $state,  $
       $ionicTabsDelegate.select(0);
   });
 
-  var updateSearchKeys = function(key, value){
-
-  };
-
-  $scope.travelerDetail = function() {
+  $scope.travelerDetail = function(index) {
     $ionicHistory.nextViewOptions({ disableAnimate : true});
     $scope.canChangeView = true;
-    $state.go("searchDetail");
+    $state.go("searchDetail", {index : index});
   };
 });

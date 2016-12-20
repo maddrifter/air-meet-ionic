@@ -55,17 +55,17 @@ angular.module('App').factory('Watchers', function($localStorage, $filter, $time
       var ref = firebase.database().ref('accounts/' + accountId).child('myTrips');
       var callback = ref.on('child_added', function(tripId){
         var tripIdValue = tripId.val().trip;
-        var tripRef = firebase.database().ref('trips/' + tripIdValue);
+        var tripRef = firebase.database().ref('trips/' + tripIdValue).child('trip');
         var tripRefValue = tripRef.on('value', function(trip){
-          var tripValue = trip.val();
+          var tripValue = trip.val()
           var trip = {
-              from : tripValue.trip.from,
-              to : tripValue.trip.to,
-              dateTime : $filter('date')(new Date(tripValue.trip.dateTime), 'dd MMM yyyy'),
-              weightAvailable : tripValue.trip.weightAvailable,
-              sizeAvailable : tripValue.trip.sizeAvailable,
-              flightNumber: tripValue.trip.flightNumber,
-              modeOfTransport : tripValue.trip.modeOfTransport,
+              from : tripValue.from,
+              to : tripValue.to,
+              dateTime : $filter('date')(new Date(tripValue.dateTime), 'dd MMM yyyy'),
+              weightAvailable : tripValue.weightAvailable,
+              sizeAvailable : tripValue.izeAvailable,
+              flightNumber: tripValue.flightNumber,
+              modeOfTransport : tripValue.modeOfTransport,
               id : tripIdValue
           };
           $timeout(function(){
@@ -122,6 +122,7 @@ angular.module('App').factory('Watchers', function($localStorage, $filter, $time
         eventType : 'child_added'
       });
     },
+
     //Watcher responsible for adding and updating the user's profile to the service.
     addProfileWatcher: function(accountId) {
       var ref = firebase.database().ref('accounts/' + accountId);
@@ -149,6 +150,7 @@ angular.module('App').factory('Watchers', function($localStorage, $filter, $time
         eventType: 'value'
       });
     },
+
     //Watcher responsible for adding and updating conversations with the user to the service.
     addNewConversationWatcher: function(accountId) {
       var ref = firebase.database().ref('accounts/' + accountId).child('conversations');

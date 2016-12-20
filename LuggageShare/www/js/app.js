@@ -119,7 +119,7 @@ angular.module('App', ['ionic', 'ngStorage', 'ngCordovaOauth', 'ngCordova', 'ion
         controller: 'searchController'
       })
       .state('searchDetail', {
-        url : '/searchdetail',
+        url : '/searchdetail/:index',
         templateUrl: 'views/searchDetail/search-detail.html',
         controller: 'searchDetailController'
       })
