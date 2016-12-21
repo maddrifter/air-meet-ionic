@@ -12,31 +12,39 @@ angular.module('App').controller('messageController', function($scope, $state, $
   //Allow going back when back is selected.
   $scope.back = function() {
     $scope.canChangeView = true;
-    $localStorage.friendId = undefined;
+    $localStorage.userId = undefined;
     $localStorage.conversationId = undefined;
-    // $ionicHistory.goBack();
-    $state.go('messages');
+    if ($ionicHistory.backView()) {
+      $ionicHistory.goBack();
+    } else {
+      $state.go('messages');
+    }
   };
 
   $scope.$on('$ionicView.enter', function() {
     //Disable scroll to correctly orient the keyboard input for iOS.
-    cordova.plugins.Keyboard.disableScroll(true);
+    // cordova.plugins.Keyboard.disableScroll(true);
 
     //Set scope variables to the selected conversation partner.
-    if ($localStorage.friendId) {
-      $scope.conversationName = Service.getFriend($localStorage.friendId).name;
-      $scope.conversation = Service.getConversation($localStorage.friendId);
-      if ($scope.conversation) {
-        $scope.conversationId = $scope.conversation.id;
-        $scope.messages = $scope.conversation.messages;
-        $scope.unreadMessages = $scope.conversation.unreadMessages;
-        for (var i = 0; i < $scope.messages.length; i++) {
-          $scope.messages[i].profilePic = Service.getProfilePic($scope.messages[i].sender);
+    if ($localStorage.userId) {
+      var user = Service.getAccount($localStorage.userId);
+      if(user){
+        $scope.conversationName = user.name;
+        $scope.conversation = Service.getConversation($localStorage.userId);
+        if ($scope.conversation) {
+          $scope.conversationId = $scope.conversation.id;
+          $scope.messages = $scope.conversation.messages;
+          $scope.unreadMessages = $scope.conversation.unreadMessages;
+          for (var i = 0; i < $scope.messages.length; i++) {
+            $scope.messages[i].profilePic = Service.getProfilePic($scope.messages[i].sender);
+          }
+        } else {
+          
         }
-      }
-      $scope.scrollBottom();
-      if ($localStorage.conversationId) {
-        $scope.conversationId = $localStorage.conversationId;
+        $scope.scrollBottom();
+        if ($localStorage.conversationId) {
+          $scope.conversationId = $localStorage.conversationId;
+        }
       }
     }
 
@@ -57,7 +65,7 @@ angular.module('App').controller('messageController', function($scope, $state, $
 
   //Broadcast from our Watcher that tells us that a new conversation has been made with the user, we then reload the view to accomodate the changes.
   $scope.$on('conversationAdded', function(event, args) {
-    if (args.friendId == $localStorage.friendId) {
+    if (args.userId == $localStorage.userId) {
       $scope.canChangeView = true;
       $state.reload();
     } else {
@@ -110,7 +118,7 @@ angular.module('App').controller('messageController', function($scope, $state, $
       var conversations = account.val().conversations;
       if(conversations) {
         for(var i = 0; i < conversations.length; i++) {
-          if(conversations[i].friend == $localStorage.friendId) {
+          if(conversations[i].contractor == $localStorage.userId) {
             hasConversation = true;
           }
         }
@@ -146,7 +154,7 @@ angular.module('App').controller('messageController', function($scope, $state, $
         });
       } else {
         //Create new conversation
-        var users = [$localStorage.accountId, $localStorage.friendId];
+        var users = [$localStorage.accountId, $localStorage.userId];
         var messages = [];
         if (type == 'text') {
           messages.push({
@@ -176,7 +184,7 @@ angular.module('App').controller('messageController', function($scope, $state, $
             conversations = [];
           }
           conversations.push({
-            friend: $localStorage.friendId,
+            contractor: $localStorage.userId,
             conversation: conversationId,
             messagesRead: 1
           });
@@ -185,17 +193,17 @@ angular.module('App').controller('messageController', function($scope, $state, $
           });
         });
 
-        firebase.database().ref('accounts/' + $localStorage.friendId).once('value', function(account) {
+        firebase.database().ref('accounts/' + $localStorage.userId).once('value', function(account) {
           var conversations = account.val().conversations;
           if (!conversations) {
             conversations = [];
           }
           conversations.push({
-            friend: $localStorage.accountId,
+            contractor: $localStorage.accountId,
             conversation: conversationId,
             messagesRead: 0
           });
-          firebase.database().ref('accounts/' + $localStorage.friendId).update({
+          firebase.database().ref('accounts/' + $localStorage.userId).update({
             conversations: conversations
           });
         });

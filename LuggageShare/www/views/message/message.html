@@ -1,5 +1,5 @@
 <ion-view hide-back-button="true" hide-nav-bar="true" can-swipe-back="false" cache-view="false">
-  <ion-header-bar align-title="center" class="bar-energized" ng-click="scrollTop()">
+  <ion-header-bar align-title="center" class="bar-calm" ng-click="scrollTop()">
     <div class="buttons">
       <button class="button button-clear" ng-click="back()">Back</button>
     </div>
@@ -27,10 +27,10 @@
     </ol>
   </ion-content>
   <ion-footer-bar keyboard-attach class="item-input-inset bar-light" ng-click="scrollBottom()">
-    <a class="button button-icon icon ion-camera energized" ng-click="sendPictureMessage()"></a>
+    <a class="button button-icon icon ion-camera calm" ng-click="sendPictureMessage()"></a>
     <label class="item-input-wrapper">
       <input type="text" placeholder="Type your message" ng-model="message" />
     </label>
-    <a class="button button-icon icon ion-email energized" ng-click="sendTextMessage()"></a>
+    <a class="button button-icon icon ion-email calm" ng-click="sendTextMessage()"></a>
   </ion-footer-bar>
 </ion-view>

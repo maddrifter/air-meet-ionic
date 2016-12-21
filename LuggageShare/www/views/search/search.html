@@ -1,4 +1,4 @@
-<ion-view hide-nav-bar="true" hide-back-button="true" cache-view="false">
+<ion-view hide-nav-bar="true" hide-back-button="true" cache-view="true">
   <ion-header-bar align-title="center" class="bar-calm">
     <h1 class="title">Search</h1>
   </ion-header-bar>
@@ -44,7 +44,7 @@
         <ion-item ng-repeat="destTrip in searchedTrips track by $index" class="item-avatar item-icon-right item-chat" type="item-text-wrap" ng-click="travelerDetail($index)">
           <!-- ng-repeat="item in items" -->
             <img ng-src="img/ben.png">
-            <h2>{{destTrip.trip.from}} - {{destTrip.trip.to}}</h2>
+            <h2>{{destTrip.from}} - {{destTrip.to}}</h2>
             <p>{{destTrip.dateTime}}</p>
             <ion-reorder-button class="ion-navicon"  on-reorder="reorderItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
 

@@ -24,19 +24,19 @@
           </div>
         </div> -->
         <ion-list>
-          <ion-item class="item-avatar item-icon-right item-chat" type="item-text-wrap" ng-click="chat(message.friend, message.id)" ng-repeat="message in conversations | orderBy: 'lastActiveDate':true | messageFilter: conversationSearch">
-            <img ng-src="{{message.friend.profilePic}}">
-            <span ng-if="message.unreadMessages > 0" class="badge badge-assertive margin-top15">{{message.unreadMessages}}</span>
-            <h2 class="margin-top-5" ng-if="message.unreadMessages <= 0">{{message.friend.name}}<div class="online-on" ng-if="message.friend.online"></div></h2>
-            <p ng-if="message.unreadMessages <= 0">{{message.lastMessage}}</p>
+          <ion-item class="item-avatar item-icon-right item-chat" type="item-text-wrap" ng-click="chat(message.user, message.id)" ng-repeat="conversation in conversations | orderBy: 'lastActiveDate':true | messageFilter: conversationSearch">
+            <img ng-src="{{message.user.profilePic}}">
+            <span ng-if="message.unreadMessages > 0" class="badge badge-assertive margin-top15">{{conversation.unreadMessages}}</span>
+            <h2 class="margin-top-5" ng-if="message.unreadMessages <= 0">{{conversation.user.name}}<div class="online-on" ng-if="message.user.online"></div></h2>
+            <p ng-if="message.unreadMessages <= 0">{{conversation.lastMessage}}</p>
 
-            <h2 ng-if="message.unreadMessages > 0" style="font-weight: bold;">{{message.friend.name}}<div class="online-on" ng-if="message.friend.online"></div></h2>
-            <p ng-if="message.unreadMessages > 0" style="font-weight: bold;">{{message.lastMessage}}</p>
-            <p class="font-size-85 energized margin-bottom-10">{{message.messages[message.messages.length - 1].time}}</p>
+            <h2 ng-if="message.unreadMessages > 0" style="font-weight: bold;">{{conversation.user.name}}<div class="online-on" ng-if="message.user.online"></div></h2>
+            <p ng-if="message.unreadMessages > 0" style="font-weight: bold;">{{conversation.lastMessage}}</p>
+            <p class="font-size-85 energized margin-bottom-10">{{conversation.messages[conversation.messages.length - 1].time}}</p>
             <p class="time-list">
-              <i class="icon ion-clock"></i> {{message.messages[message.messages.length - 1].date}}
+              <i class="icon ion-clock"></i> {{conversation.messages[conversation.messages.length - 1].date}}
             </p>
-            <ion-option-button class="button-assertive" ng-click="delete(message, $index)">
+            <ion-option-button class="button-assertive" ng-click="delete(conversation, $index)">
               <i class="icon ion-close"></i>
             </ion-option-button>
           </ion-item>

@@ -1,50 +1,50 @@
-<ion-view hide-nav-bar="true" hide-back-button="true" cache-view="false">
+<ion-view hide-nav-bar="true" hide-back-button="true" cache-view="true">
   <ion-header-bar align-title="center" class="bar-calm">
     <div class="buttons">
       <button class="button button-clear" ng-click="back()">Back</button>
     </div>
-    <h1 class="title">Search Detail</h1>
+    <h1 class="title">{{trip.travelerName}}</h1>
   </ion-header-bar>
   <ion-content class="text-center" scroll="false">
     <div class="two-third-height">
       <ion-list>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">From</h2>
-          <input class="input-flex" type="text" readonly="readonly" value="1">
+          <input class="input-flex" type="text" readonly="readonly" ng-model="trip.from">
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">To</h2>
-          <input class="input-flex" type="text" readonly="readonly"  value="3kg">
+          <input class="input-flex" type="text" readonly="readonly"  ng-model="trip.to">
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Date/Time</h2>
-          <input class="input-flex" type="text" readonly="readonly" value="25 * 20 * 15 cm">
+          <input class="input-flex" type="text" readonly="readonly" ng-model="trip.dateTime">
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Weight</h2>
-          <input class="input-flex" type="text" readonly="readonly" value="Pair of new ugg boots for my young niece">
+          <input class="input-flex" type="text" readonly="readonly" ng-model="trip.weightAvailable">
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Dimentions</h2>
-          <input class="input-flex" type="text" readonly="50$" value="Sydney">
+          <input class="input-flex" type="text" readonly="readonly" ng-model="trip.dimension">
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Mode of transport</h2>
-          <input class="input-flex" type="text" readonly="50$" value="Sydney">
+          <input class="input-flex" type="text" readonly="readonly" ng-model="trip.modeOfTransport">
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Flight Number</h2>
-          <input class="input-flex" type="text" readonly="50$" value="Sydney">
+          <input class="input-flex" type="text" readonly="readonly" ng-model="trip.flightNumber">
         </ion-item>
-        <ion-item class="item item-icon-right text-left margin-left20 padding-vertical-2vh border-horizontal clear-padding-vertical">
-          <h2 class="text-left font-2x padding-ver">Select my item to post</h2>
+        <ion-item class="item item-icon-right text-left margin-left20 padding-vertical-2vh border-horizontal clear-padding-vertical" ng-click="goToGetItem()">
+          <h2 class="text-left font-2x padding-ver" >Select my item to post</h2>
           <i class="icon ion-ios-arrow-right"></i>
         </ion-item>
       </ion-list>
     </div>
     <div class="row padding-horizontal padding-top10">
-      <button class="col col-33 button button-small button-outline button-balanced font-2x">Chat</button>
-      <button class="col col-60 button button-small button-balanced margin-left20 font-2x">Send Postage reques</button>
+      <button class="col col-33 button button-small button-outline button-balanced font-2x" ng-click="goToChat()">Chat</button>
+      <button class="col col-60 button button-small button-balanced margin-left20 font-2x" ng-click="sendRequest()">Send Postage request</button>
     </div>
   </ion-content>
   <div ng-include src="'views/tabs/tabs.html'"></div>

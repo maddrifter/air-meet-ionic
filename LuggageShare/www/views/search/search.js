@@ -1,21 +1,22 @@
 'Use Strict';
-angular.module('App').controller('searchController', function($scope, $state,  $ionicHistory, $ionicTabsDelegate, $ionicPlatform, $localStorage, Watchers, Service, Popup) {
-  // $scope.$on('$stateChangeStart', function(event) {
-  //   if (!$scope.canChangeView) {
-  //     event.preventDefault();
-  //   }
-  // });
+angular.module('App').controller('searchController', function($scope, $state,  $ionicHistory, $filter,$ionicTabsDelegate, $ionicPlatform, $localStorage, Watchers, Service, Popup) {
+
+  $scope.$on('$stateChangeStart', function(event) {
+    if (!$scope.canChangeView) {
+      event.preventDefault();
+    }
+  });
 
   var placeFlag = 0, destinationFlag = 0, dateFlag = 0;
 
-  $scope.searchedTrips = [];
-  $scope.searchedTrips = Service.getSearchedTripsList();
+
 
   $scope.searchObj = {
     startPlace: '',
     destination: '',
     startDate: new Date()
   };
+
 
   //Allow changing to other views when tabs is selected.
   $scope.changeTab = function(stateTo) {
@@ -28,6 +29,8 @@ angular.module('App').controller('searchController', function($scope, $state,  $
 
   $scope.$on('$ionicView.enter', function() {
 
+      $scope.searchedTrips = [];
+      $scope.searchedTrips = Service.getSearchedTripsList();
       //Check if there's an authenticated user, if there is non, redirect to login.
       if (firebase.auth().currentUser) {
         //Set status to online or offline on Firebase.
@@ -69,11 +72,18 @@ angular.module('App').controller('searchController', function($scope, $state,  $
         // Watchers.addNewFriendWatcher($localStorage.accountId);
         Watchers.addNewConversationWatcher($localStorage.accountId);
         // Watchers.addFriendRequestsWatcher($localStorage.accountId);
-        Watchers.addRequestsSentWatcher($localStorage.accountId);
+        // Watchers.addRequestsSentWatcher($localStorage.accountId);
         Watchers.addMyTripWatcher($localStorage.accountId);
         Watchers.addMyItmesWatcher($localStorage.accountId);
-        // Watchers.addNewGroupWatcher($localStorage.accountId);
       }
+      $scope.$watch(function(){
+        return Service.getUnreadMessages();
+      }, function(unreadMessages){
+        $scope.unreadMessages = unreadMessages;
+        console.log("unreadMessages : ",  unreadMessages);
+      });
+
+    
       //When input search items - startPlace , destination, startDate
       $scope.$watch('searchObj.startPlace', function(newValue){
         console.log('=====', newValue);
@@ -117,7 +127,18 @@ angular.module('App').controller('searchController', function($scope, $state,  $
                 var tripDate = new Date(tripInfo.dateTime);
                 if (tripInfo.from.indexOf($scope.searchObj.startPlace) !== -1 && tripInfo.to.indexOf($scope.searchObj.destination) !== -1 && startDate <= tripDate){
                   console.log("=======", allTrips[key]);
-                  Service.addSearchedTripList(allTrips[key]);
+                  var trip = {
+                    from : tripInfo.from,
+                    to: tripInfo.to,
+                    dateTime : $filter('date')(new Date(tripInfo.dateTime), 'dd MMM yyyy'),
+                    weightAvailable : tripInfo.weightAvailable,
+                    sizeAvailable : tripInfo.sizeAvailable,
+                    flightNumber : tripInfo.flightNumber,
+                    modeOfTransport : tripInfo.modeOfTransport,
+                    tripId : tripInfo.id,
+                    traveler : allTrips[key].traveler,
+                  };
+                  Service.addSearchedTripList(trip);
                 }
               }
            }
@@ -139,4 +160,5 @@ angular.module('App').controller('searchController', function($scope, $state,  $
     $scope.canChangeView = true;
     $state.go("searchDetail", {index : index});
   };
+
 });

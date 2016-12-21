@@ -36,21 +36,6 @@ angular.module('App').controller('profileController', function($scope, $state, $
         Utils.show();
       $scope.profile = Service.getProfile();
     });
-
-    //Notify whenever there are new friend requests.
-    $scope.$watch(function() {
-      return Service.getFriendRequestsCount();
-    }, function(friendRequests) {
-      $scope.friendRequestsCount = friendRequests;
-    });
-
-    //Notify whenever there are new group messages.
-    $scope.$watch(function() {
-      return Service.getUnreadGroupMessages();
-    }, function(unreadGroupMessages) {
-      $scope.unreadGroupMessages = unreadGroupMessages;
-    });
-
     $scope.changedProfilePic = false;
     //Disable canChangeView to disable automatically restating to messages route whenever Firebase Watcher calls are triggered.
     $scope.canChangeView = false;

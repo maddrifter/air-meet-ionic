@@ -99,7 +99,7 @@ h4 a {
 }
 .item-input-wrapper {
   background: #fff;
-  margin-right: -30px !important;
+  /*margin-right: -30px !important;*/
 }
 /* Search Bar */
 
@@ -122,6 +122,9 @@ h4 a {
 /* Custom CSS Helpers */
 .energized {
   color: #ffc900 !important;
+}
+.calm {
+  color: #11c1f3 !important;
 }
 .input-style {
   font-size: 16px !important;

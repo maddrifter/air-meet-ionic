@@ -87,21 +87,6 @@ angular.module('App', ['ionic', 'ngStorage', 'ngCordovaOauth', 'ngCordova', 'ion
         templateUrl: 'views/message/message.html',
         controller: 'messageController'
       })
-      .state('groups', {
-        url: '/groups',
-        templateUrl: 'views/groups/groups.html',
-        controller: 'groupsController'
-      })
-      .state('group', {
-        url: '/group',
-        templateUrl: 'views/group/group.html',
-        controller: 'groupController'
-      })
-      .state('groupDetails', {
-        url: '/groupDetails',
-        templateUrl: 'views/groupDetails/groupDetails.html',
-        controller: 'groupDetailsController'
-      })
       .state('friends', {
         url: '/friends',
         templateUrl: 'views/friends/friends.html',
@@ -205,28 +190,6 @@ angular.module('App', ['ionic', 'ngStorage', 'ngCordovaOauth', 'ngCordova', 'ion
           var termInUsername = item.username.toLowerCase().indexOf(term) > -1;
           return notAssigned && (termInName || termInUsername);
         });
-      }
-    }
-  })
-  .filter('groupFilter', function() {
-    return function(dataArray, searchTerm) {
-      // If no array is given, exit.
-      if (!dataArray) {
-        return;
-      }
-      // If no search term exists, return the array unfiltered.
-      else if (!searchTerm) {
-        return dataArray;
-      }
-      // Otherwise, continue.
-      else {
-        // Convert filter text to lower case.
-        var term = searchTerm.toLowerCase();
-        var result = dataArray.filter(function(item) {
-          var termInName = item.name.toLowerCase().indexOf(term) > -1;
-          return termInName;
-        });
-        return result;
       }
     }
   })
