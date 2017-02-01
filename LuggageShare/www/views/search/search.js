@@ -1,22 +1,17 @@
 'Use Strict';
-angular.module('App').controller('searchController', function($scope, $state,  $ionicHistory, $filter,$ionicTabsDelegate, $ionicPlatform, $localStorage, Watchers, Service, Popup) {
+angular.module('App').controller('searchController', function($scope, $state, $rootScope,  $ionicHistory, $filter,$ionicTabsDelegate, $ionicPlatform, $localStorage, Watchers, Service, Popup) {
 
   $scope.$on('$stateChangeStart', function(event) {
     if (!$scope.canChangeView) {
       event.preventDefault();
     }
   });
-
   var placeFlag = 0, destinationFlag = 0, dateFlag = 0;
-
-
-
   $scope.searchObj = {
     startPlace: '',
     destination: '',
     startDate: new Date()
   };
-
 
   //Allow changing to other views when tabs is selected.
   $scope.changeTab = function(stateTo) {
@@ -28,8 +23,6 @@ angular.module('App').controller('searchController', function($scope, $state,  $
   };
 
   $scope.$on('$ionicView.enter', function() {
-
-      $scope.searchedTrips = [];
       $scope.searchedTrips = Service.getSearchedTripsList();
       //Check if there's an authenticated user, if there is non, redirect to login.
       if (firebase.auth().currentUser) {
@@ -75,6 +68,10 @@ angular.module('App').controller('searchController', function($scope, $state,  $
         // Watchers.addRequestsSentWatcher($localStorage.accountId);
         Watchers.addMyTripWatcher($localStorage.accountId);
         Watchers.addMyItmesWatcher($localStorage.accountId);
+        Watchers.addMyRequestsWatcher($localStorage.accountId);
+        Watchers.addReceivedRequestsWatcher($localStorage.accountId);
+        Watchers.addTripRemoveWatcher();
+        Watchers.addItemRemoveWatcher();
       }
       $scope.$watch(function(){
         return Service.getUnreadMessages();
@@ -83,7 +80,13 @@ angular.module('App').controller('searchController', function($scope, $state,  $
         console.log("unreadMessages : ",  unreadMessages);
       });
 
-    
+      $scope.$watch(function(){
+        return Service.getUnreadRequests();
+      }, function(unreadRequests){
+        $rootScope.unreadRequests = unreadRequests;
+        console.log("unreadRequests : ",  unreadRequests);
+      });
+
       //When input search items - startPlace , destination, startDate
       $scope.$watch('searchObj.startPlace', function(newValue){
         console.log('=====', newValue);
@@ -117,34 +120,38 @@ angular.module('App').controller('searchController', function($scope, $state,  $
       };
       var updateTripsList = function() {
         Service.removeSearchedTripList();
-        firebase.database().ref("trips/").once('value', function(allTripsRef){
+        firebase.database().ref("trips/").on('value', function(allTripsRef){
            var allTrips = allTripsRef.val();
            if (allTrips) {
               for (var key in allTrips) {
-                console.log(allTrips[key]);
                 var tripInfo = allTrips[key].trip;
                 var startDate = new Date($scope.searchObj.startDate);
                 var tripDate = new Date(tripInfo.dateTime);
-                if (tripInfo.from.indexOf($scope.searchObj.startPlace) !== -1 && tripInfo.to.indexOf($scope.searchObj.destination) !== -1 && startDate <= tripDate){
-                  console.log("=======", allTrips[key]);
-                  var trip = {
-                    from : tripInfo.from,
-                    to: tripInfo.to,
-                    dateTime : $filter('date')(new Date(tripInfo.dateTime), 'dd MMM yyyy'),
-                    weightAvailable : tripInfo.weightAvailable,
-                    sizeAvailable : tripInfo.sizeAvailable,
-                    flightNumber : tripInfo.flightNumber,
-                    modeOfTransport : tripInfo.modeOfTransport,
-                    tripId : tripInfo.id,
-                    traveler : allTrips[key].traveler,
-                  };
-                  Service.addSearchedTripList(trip);
+                if (allTrips[key].traveler != $localStorage.accountId) {
+                  if (tripInfo.from.toLowerCase().indexOf($scope.searchObj.startPlace.toLowerCase()) !== -1 && tripInfo.to.toLowerCase().indexOf($scope.searchObj.destination.toLowerCase()) !== -1 && startDate <= tripDate){
+                    console.log("=======", allTrips[key]);
+                    var trip = {
+                      from : tripInfo.from,
+                      to: tripInfo.to,
+                      dateTime : $filter('date')(new Date(tripInfo.dateTime), 'dd MMM yyyy'),
+                      weightAvailable : tripInfo.weightAvailable,
+                      sizeAvailable : tripInfo.sizeAvailable,
+                      flightNumber : tripInfo.flightNumber,
+                      modeOfTransport : tripInfo.modeOfTransport,
+                      tripId : tripInfo.id,
+                      traveler : allTrips[key].traveler,
+                    };
+                    Service.addSearchedTripList(trip);
+                  }
                 }
               }
            }
-           $scope.$apply(function() {
-             $scope.searchedTrips = Service.getSearchedTripsList();
-           });
+          //  $scope.$apply(function() {
+          if (!$scope.$$phase) $scope.$apply(function(){
+            $scope.searchedTrips = Service.getSearchedTripsList();
+
+          });
+          //  });
         });
       };
 

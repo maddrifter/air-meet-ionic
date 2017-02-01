@@ -158,6 +158,49 @@ angular.module('App').factory('Utils', function($ionicLoading, $timeout, Popup, 
         //User Cancelled.
         Utils.hide();
       });
+    },
+    getItemPicture: function(imageSource) {
+      Utils.show();
+      //Set Camera options here.
+      var options = {
+        quality: 25,
+        destinationType: Camera.DestinationType.DATA_URL,
+        sourceType: imageSource,
+        encodingType: Camera.EncodingType.PNG,
+        targetWidth: 100,
+        targetHeight: 100,
+        popoverOptions: CameraPopoverOptions,
+        correctOrientation: true,
+        saveToPhotoAlbum: false
+      };
+      $cordovaCamera.getPicture(options).then(function(imageData) {
+        //Create imageURI.
+        var imgURI = "data:image/png;base64," + imageData;
+        //Create Blob File from ImageURI.
+        var file = Utils.dataURItoBlob(imgURI);
+        //Create and set Meta Type to Firebase Storage Ref.
+        var storageRef = firebase.storage().ref();
+        var metadata = {
+          'contentType': file.type
+        };
+        //Refer to images folder of Firebase Storage.
+        storageRef.child('images/' + Utils.generateFilename()).put(file, metadata).then(function(snapshot) {
+          //File successfully uploaded to Firebase Storage.
+          var url = snapshot.metadata.downloadURLs[0];
+          // $scope.sendMessage('image', url);
+          Utils.hide();
+          $rootScope.$broadcast('imageUploaded', {
+            imageUrl: url
+          });
+        }).catch(function(error) {
+          alert(error);
+          //Show Error.
+          Utils.message(Popup.errorIcon, Popup.uploadImageError);
+        });
+      }, function(err) {
+        //User Cancelled.
+        Utils.hide();
+      });
     }
   };
   hideMessage = function() {

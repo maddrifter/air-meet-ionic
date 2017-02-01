@@ -38,6 +38,34 @@ angular.module('App').controller('MyTripsController', function($scope, $localSto
     }
     $state.go('tripDetail', {mode : param, index : index});
   };
+  // Remove a trip
+  $scope.removeTrip =  function(index) {
+    var tripId = $scope.trips[index].id;
+    firebase.database().ref('accounts/' + $localStorage.accountId).child("myTrips").once('value', function(myTrips){
+      var trips = myTrips.val();
+      var deleteTripsIndex = -1;
+      if (trips){
+        console.log("My Trips : ", trips);
+        for(var i = 0 ; i < trips.length ; i++){
+            if(trips[i].trip == tripId) {
+              deleteTripsIndex = i;
+            }
+        }
+        //Remove from the myTrips list
+        console.log(deleteTripsIndex);
+        if (deleteTripsIndex != -1){
+          trips.splice(deleteTripsIndex, 1);
+        }
+        console.log("After remove : " , trips);
 
+        firebase.database().ref('accounts/' + $localStorage.accountId).update({
+          myTrips : trips
+        });
+        //Remove from Trips list
+        var ref = firebase.database().ref('trips/');
+        ref.child(tripId).remove();
+      }
+    });
+  }
 
 });

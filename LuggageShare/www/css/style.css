@@ -82,6 +82,12 @@
   border-radius: 150px;
   margin-top: 75px;
 }
+.item-picture {
+  width : 60px;
+  height: auto;
+  border-radius: 100px;
+  margin : 0px;
+}
 .bold {
   font-weight: bolder;
 }
@@ -208,6 +214,9 @@ h4 a {
 }
 .margin-top10 {
   margin-top: 10px !important;
+}
+.margin-top5 {
+  margin-top: 5px !important;
 }
 .margin-top-5 {
   margin-top: -5px !important;
@@ -425,7 +434,8 @@ h4 a {
   margin-left: 10px;
 }
 .messages .other .msg p, .messages .self .msg p {
-  background: #ffc900;
+ /*background: #ffc900;*/
+ background : #11c1f3;
   border-radius: .3rem;
   color: #fff;
   font-size: .875rem;
@@ -434,7 +444,7 @@ h4 a {
   position: relative;
 }
 .messages .other .msg p:after, .messages .self .msg p:after {
-  border-color: transparent #ffc900;
+  border-color: transparent #11c1f3;
   border-style: solid;
   border-width: 6px 5px 6px 0;
   content: '';
@@ -528,6 +538,9 @@ h4 a {
 .fit-height {
   height: 100%;
 }
+.platform-ios img.fit-height {
+  height : 5vh;
+}
 .fit {
   width: 100% !important;
   height: 100% !important;
@@ -570,14 +583,14 @@ h4 a {
   width : 50%;
   float: left;
 }
-.padding-left40{
-  padding-left: 40px;
+.padding-left10{
+  padding-left: 10px;
 }
 .margin-top30 {
   margin-top: 30px;
 }
-.line-height-75 {
-  line-height: 75px;
+.line-height-50 {
+  line-height: 50px;
 }
 .item.item-icon-right.border-horizontal {
   border:1px solid #fff;
@@ -669,4 +682,94 @@ form.padding-horizontal {
 .stretch-80{
    position: relative;
    width: 80%;
+}
+
+div.button-bar .button-block.button-calm.margin-top20 {
+  min-height: 6vh;
+  line-height: 6vh;
+  height: 6vh;
+}
+.back-calm {
+  background: #11c1f3 !important;
+}
+.back-calm .button.button-clear.button-calm {
+  color : #11c1f3;
+  background: #fff;
+}
+.my-trip-item {
+  padding-bottom: 10px !important;
+}
+.item-right .icon.ion-trash-a {
+  margin-left: 30px;
+  font-size: 130%;
+  padding: 5px 8px;
+}
+.item-right .icon.ion-compose {
+  font-size: 130%;
+  padding: 5px 8px;
+}
+.my-trip-item .trip-item-left,  .my-item-item .item-info-left {
+  width : 60%;
+  float: left;
+}
+.my-trip-item .trip-item-right {
+  width : 40%;
+  float: left;
+}
+.my-item-header .col-60 h2 {
+  margin-bottom: 0px;
+}
+.my-item-header .col-60 input {
+  margin-bottom: 0px !important;
+}
+.my-item-header .col-40 img {
+  margin : 0px;
+}
+.my-item-header.row {
+  padding-left: 30px;
+  padding-right: 20px;
+  height: 80px;
+  border-bottom : 1px solid #11c1f3;
+}
+.my-item-item .item-info-middle .reward-label {
+  padding-left: 20px;
+  color : red;
+}
+.my-item-item .item-info-middle {
+  width : 30%;
+  float: left;
+}
+.my-item-item .item-info-right{
+  width : 10%;
+  float: left;
+}
+.item-right.item-info-middle .icon.ion-trash-a {
+  margin-left: 20px;
+}
+.my-item-item .item-info-right .icon{
+  font-size: 150%;
+  line-height: 40px;
+}
+.button-bar .button.button-block .badge-request {
+  padding: 1px 5px;
+  margin-left : -3px;
+  font-size: 13px;
+}
+.item-request .badge.badge-assertive.badge-unaccept {
+  color : #de5137;
+  width: 15px;
+    height: 15px;
+    font-size: 1px;
+    padding: 0px;
+}
+.title-text {
+  font-size : 16px;
+  font-weight: 600;
+  line-height: 30px;
+  padding-left : 30px;
+  margin-bottom : 0px;
+  background : #eee;
+}
+.title-text p{
+  margin-bottom: 0px;
 }

@@ -52,31 +52,85 @@ angular.module('App').factory('Watchers', function($localStorage, $filter, $time
     //Watcher responsible for adding and updating myTripList
     addMyTripWatcher: function(accountId) {
       var ref = firebase.database().ref('accounts/' + accountId).child('myTrips');
-      var callback = ref.on('child_added', function(tripId){
+      var addCallback = ref.on('child_added', function(tripId){
         var tripIdValue = tripId.val().trip;
         var tripRef = firebase.database().ref('trips/' + tripIdValue).child('trip');
         var tripRefValue = tripRef.on('value', function(trip){
           // var tripValue = trip.val()
-          var trip = {
-              from : trip.val().from,
-              to : trip.val().to,
-              dateTime : $filter('date')(new Date(trip.val().dateTime), 'dd MMM yyyy'),
-              weightAvailable : trip.val().weightAvailable,
-              sizeAvailable :trip.val().izeAvailable,
-              flightNumber: trip.val().flightNumber,
-              modeOfTransport : trip.val().modeOfTransport,
-              id : tripIdValue
-          };
-          $timeout(function(){
-            Service.addTrip(trip);
-          });
+          if (trip.val()) {
+            var trip = {
+                from : trip.val().from,
+                to : trip.val().to,
+                dateTime : $filter('date')(new Date(trip.val().dateTime), 'dd MMM yyyy'),
+                weightAvailable : trip.val().weightAvailable,
+                sizeAvailable :trip.val().sizeAvailable,
+                flightNumber: trip.val().flightNumber,
+                modeOfTransport : trip.val().modeOfTransport,
+                id : tripIdValue
+            };
+            $timeout(function(){
+              Service.addTrip(trip);
+            });
+          }
         });
         //Add watcher to the watchers list to be cleared later when user logged out.
-        watchers.push({
-          ref: tripRef,
-          callback : tripRefValue,
-          eventType : 'value'
+        // watchers.push({
+        //   ref: tripRef,
+        //   callback : tripRefValue,
+        //   eventType : 'value'
+        // });
+      });
+      watchers.push({
+        ref : ref,
+        callback : addCallback,
+        eventType : 'child_added'
+      });
+    },
+    addTripRemoveWatcher : function(){
+      var ref = firebase.database().ref('trips/');
+      var callback  = ref.on('child_removed', function(removedTrip) {
+        var tripId = removedTrip.key;
+        $timeout(function(){
+          Service.removeTrip(tripId);
+          Service.removeSearchedTripWithId(tripId);
         });
+      });
+      watchers.push({
+        ref : ref,
+        callback : callback,
+        eventType : 'child_removed'
+      });
+    },
+    addMyRequestsWatcher : function(accountId) {
+      var ref = firebase.database().ref('accounts/' + accountId).child('myRequests');
+      var callback = ref.on('child_added', function(myRequest){
+        var request = myRequest.val();
+        $timeout(function(){
+          console.log("?===?", request);
+          Service.addMyRequest(request);
+        });
+      });
+      watchers.push({
+        ref : ref,
+        callback : callback,
+        eventType : 'child_added'
+      });
+    },
+    addReceivedRequestsWatcher : function(accountId) {
+      var ref = firebase.database().ref('accounts/' + accountId).child('receivedRequests');
+      var callback = ref.on('child_added', function(receivedRequest){
+        var requestId = receivedRequest.val();
+        firebase.database().ref('requests/' + requestId).once('value', function(requestRef){
+          var request = requestRef.val();
+          if(request){
+            request["id"] = requestId;
+            $timeout(function(){
+              console.log("!===!", request);
+              Service.addReceivedRequest(request);
+              Service.updateUnreadRequests();
+            });
+          }
+        });         
       });
       watchers.push({
         ref : ref,
@@ -91,34 +145,64 @@ angular.module('App').factory('Watchers', function($localStorage, $filter, $time
         var itemId = myItem.val();
         var itemRef = firebase.database().ref('items/' + itemId);
         var itemOnValue = itemRef.on('value', function(item){
-          var itemValue = item.val();
-          var itemInfo = {
-            name : itemValue.item.name,
-            quantity : itemValue.item.quantity,
-            weight : itemValue.item.weight,
-            dimension: itemValue.item.dimension,
-            description : itemValue.item.description,
-            reward : itemValue.item.reward,
-            status : itemValue.item.status,
-            deliverer : itemValue.item.deliverer,
-            rating : itemValue.item.rating,
-            id : itemId,
-          };
-          $timeout(function(){
-            Service.addItem(itemInfo);
-          });
+          if (item.val()){
+            var itemValue = item.val();
+            var itemInfo = {
+              name : itemValue.item.name,
+              quantity : itemValue.item.quantity,
+              weight : itemValue.item.weight,
+              dimension: itemValue.item.dimension,
+              description : itemValue.item.description,
+              reward : itemValue.item.reward,
+              status : itemValue.item.status,
+              deliverer : itemValue.item.deliverer,
+              rating : itemValue.item.rating,
+              isSelected : itemValue.item.isSelected,
+              id : itemId,
+            };
+            $timeout(function(){
+              Service.addItem(itemInfo);
+            });
+          }
         });
         //Add watcher to the watchers list to be cleared later when user logged out.
-        watchers.push({
-          ref: itemRef,
-          callback : itemOnValue,
-          eventType : 'value'
-        });
+        // watchers.push({
+        //   ref: itemRef,
+        //   callback : itemOnValue,
+        //   eventType : 'value'
+        // });
       });
       watchers.push({
         ref : ref,
         callback : callback,
         eventType : 'child_added'
+      });
+    },
+    addItemRemoveWatcher : function(){
+      var ref = firebase.database().ref('items/');
+      var callback  = ref.on('child_removed', function(removedItem) {
+        var itemId = removedItem.key;
+        $timeout(function(){
+          Service.removeItem(itemId);
+        });
+      });
+      watchers.push({
+        ref : ref,
+        callback : callback,
+        eventType : 'child_removed'
+      });
+      //Update watcher
+      var updateCallback = ref.on('child_changed', function(updatedItem){
+        var item = updatedItem.val().item;
+        item["id"] = updatedItem.key;
+        $timeout(function(){
+          Service.updateItem(item);
+        });
+      });
+      watchers.push({
+        ref : ref,
+        callback :  updateCallback,
+        eventType : 'child_changed'
       });
     },
 

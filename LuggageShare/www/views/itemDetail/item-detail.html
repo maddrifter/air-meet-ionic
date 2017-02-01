@@ -3,22 +3,27 @@
     <div class="buttons">
       <button class="button button-clear" ng-click="back()"><i class="icon ion-ios-arrow-left"></i></button>
     </div>
-    <h1 class="title">Item Details</h1>
+    <h1 class="title">{{itemInfo.name}}</h1>
   </ion-header-bar>
   <ion-content class="text-left gray-background" scroll="false">
+    <div class="my-item-header row">
+      <div class="col col-60 text-left">
+        <h2 class="text-left font-2x">Name</h2>
+        <input class="input-flex" type="text" ng-model="itemInfo.name" placeholder="Item Name">
+      </div>
+      <div class="col col-40 text-right">
+        <img ng-src="img/mike.png" id="item-picture" class="item-picture" imageonload="constrainProportion()" ng-click="changeItemPicture()"/>
+      </div>
+    </div>
     <div class="two-third-height">
       <ion-list>
-        <ion-item class="fit-height item-avatar item-icon-right text-left item-divider clear-padding-margin" type="item-text-wrap" href="">
-          <img ng-src="img/perl.png">
-          <input class="text-left margin-left10 font-2x-4 transparent" type="text" ng-model="itemInfo.name">
-        </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Quantity</h2>
-          <input class="input-flex" type="text" ng-model="itemInfo.quantity">
+          <input class="input-flex" type="text" ng-model="itemInfo.quantity" placeholder="Item number">
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Weight</h2>
-          <input class="input-flex" type="text" ng-model="itemInfo.weight">
+          <input class="input-flex" type="text" ng-model="itemInfo.weight" placeholder="Weight">
         </ion-item>
         <ion-item class="item item-icon-right text-left margin-left20 border-horizontal clear-padding-vertical">
           <h2 class="text-left font-2x">Dimensions</h2>
@@ -35,11 +40,14 @@
       </ion-list>
     </div>
     <div class="gray-background" ng-if="mode=='Edit'">
-      <div class="item item-avatar-right transparent clear-border padding-vertical-1vh">
-          <h2 class="item-content text-right ">Delivered by Fredrick</h2>
+      <div class="item item-avatar-right transparent clear-border padding-vertical-1vh" ng-if="itemInfo.status != 'default'">
+          <h2 class="item-content text-right" ng-if="itemInfo.status == 'delivered'">Delivered by {{item.deliverer}}</h2>
+          <h2 class="item-content text-right" ng-if="itemInfo.status == 'inTransit'">In Transit with {{item.deliverer}}</h2>
+          <h2 class="item-content text-right" ng-if="itemInfo.status == 'request'">Sent request to {{item.deliverer}}</h2>
+
           <img class="item-image" ng-src="img/max.png">
       </div>
-      <form name="RatingFrom" class="padding-horizontal margin-top-2vh" ng-submit="rating()">
+      <form name="RatingFrom" class="padding-horizontal margin-top-2vh" ng-submit="rating()" ng-if="itemInfo.status == 'delivered'">
         <div class="list">
           <ionic-ratings class="text-left rating-box" ratingsobj='ratingsObject' index='0'>{{itemInfo.rating}}</ionic-ratings>
           <label class="item item-input item-clear clear-border">

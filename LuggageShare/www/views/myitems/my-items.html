@@ -1,18 +1,29 @@
 <ion-view hide-nav-bar="true" hide-back-button="true" cache-view="false">
-  <ion-header-bar align-title="left" class="bar-calm">
+  <ion-header-bar align-title="center" class="bar-calm">
+    <div class="buttons" ng-if="mode=='Select'">
+      <button class="button button-clear" ng-click="back()">Back</button>
+    </div>
     <h1 class="title">My Items</h1>
     <div class="buttons">
-      <button class="button button-clear" ng-click="itemDetail('Add')">Add item</button>
+      <button class="button button-clear icon ion-plus" ng-click="itemDetail('Add')"></button>
     </div>
   </ion-header-bar>
   <ion-content class="text-center" scroll="false">
-
     <ion-list>
-      <ion-item class="item-avatar item-icon-right item-chat text-left" type="item-text-wrap" ng-click="itemDetail('Edit', $index)" ng-repeat="item in items track by $index">
+      <ion-item class="my-item-item item-avatar item-chat text-left" type="item-text-wrap" ng-repeat="item in items track by $index">
         <img ng-src="img/perl.png">
-        <h2 class="text-left margin-left10">{{item.name}}</h2>
-        <p>{{item.status}}</p>
-        <i class="icon ion-chevron-right line-height-75"></i>
+        <div class="item-info-left text-left">
+          <h2 class="text-left margin-left10">{{item.name}}</h2>
+          <p><span style="color:red;">Status : </span>{{item.status}}</p>
+        </div>
+        <div class="item-info-middle item-right margin-top5 text-left">
+          <p class="reward-label padding-left10 ">{{item.reward}}</p>
+          <i class="icon ion-trash-a" ng-click="removeItem($index)"></i>
+          <i class="icon ion-compose" ng-click="itemDetail('Edit', $index)"></i>
+        </div>
+        <div class="item-info-right item-right margin-top5 text-right" ng-if="item.status=='default'">
+          <i class="icon calm" ng-click="selectItem($index)" ng-class="item.isSelected?'ion-android-checkbox-outline':'ion-android-checkbox-outline-blank'"></i>
+        </div>
       </ion-item>
     </ion-list>
   </ion-content>

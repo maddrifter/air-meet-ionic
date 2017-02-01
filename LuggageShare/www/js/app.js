@@ -82,6 +82,11 @@ angular.module('App', ['ionic', 'ngStorage', 'ngCordovaOauth', 'ngCordova', 'ion
         templateUrl: 'views/messages/messages.html',
         controller: 'messagesController'
       })
+      .state('requestDetail', {
+        url : '/requestDetail',
+        templateUrl: 'views/requestDetail/request-detail.html',
+        controller: 'RequestDetailController'
+      })
       .state('message', {
         url: '/message',
         templateUrl: 'views/message/message.html',
@@ -109,7 +114,7 @@ angular.module('App', ['ionic', 'ngStorage', 'ngCordovaOauth', 'ngCordova', 'ion
         controller: 'searchDetailController'
       })
       .state('myitems', {
-        url : '/myitems',
+        url : '/myitems/:mode',
         templateUrl: 'views/myitems/my-items.html',
         controller: 'MyItemsController'
       })
@@ -193,6 +198,7 @@ angular.module('App', ['ionic', 'ngStorage', 'ngCordovaOauth', 'ngCordova', 'ion
       }
     }
   })
+
   .filter('userFilter', function(Service) {
     return function(dataArray, searchTerm) {
       // If no array is given, exit.

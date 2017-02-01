@@ -47,10 +47,85 @@ angular.module('App').controller('searchDetailController', function($scope, $sta
   $scope.goToGetItem = function(){
     console.log("======= Go to Get Item");
     $scope.canChangeView = true;
-    $scope.changeTab('myitems');
+    // $scope.changeTab('myitems');
+    $state.go('myitems', {mode : "Select"});
   };
   $scope.sendRequest = function() {
     console.log("======== Go to Send Request");
+    if ($localStorage.selectedItem) {
+
+      var item = Service.getItem($localStorage.selectedItem);
+      console.log("======+++ item +++======", item);
+      var receiver = Service.getAccount($scope.trip.traveler);
+      console.log("======+++ receiver +++======", receiver);
+      var sender = Service.getAccount($localStorage.accountId);
+      console.log("======+++ sender +++======", sender);
+
+      if((item != null) && (receiver != null) && (sender != null)) {
+        firebase.database().ref('requests/').once('value', function(requestsRef) {
+          var hasRequest = false;
+          var requests = requestsRef.val();
+          for (key in requests) {
+            if((requests[key].itemId == $localStorage.selectedItem) && (requests[key].receiverId == $scope.trip.traveler)){
+              hasRequest = true;
+              // item.status = 'pendding';
+              firebase.database().ref('items/' + item.id).child('item').update({
+                status : 'pendding'
+              });
+              delete $localStorage.selectedItem;
+              break;
+            }
+          }
+          //If doesn't have same request
+          if (hasRequest == false){
+            var requestId = firebase.database().ref('requests/').push({
+              receiverId : $scope.trip.traveler,
+              receiverName : receiver.name,
+              senderId : $localStorage.accountId,
+              senderName : sender.name,
+              itemId : $localStorage.selectedItem,
+              itemName : item.name,
+              status : "pendding",
+              lastUpdate : Date()
+            }).key;
+            if (requestId){
+              // Add requests to myRequests
+              firebase.database().ref('accounts/' + $localStorage.accountId).child('myRequests').once('value', function(requestsRef){
+                var requests = requestsRef.val();
+                if (requests){
+                  requests.push(requestId);
+                } else {
+                  requests = [requestId];
+                }
+                firebase.database().ref('accounts/' + $localStorage.accountId).update({
+                  myRequests : requests
+                });
+              });
+              //Add requests to receivedRequests of travler
+              firebase.database().ref('accounts/' + $scope.trip.traveler).child('receivedRequests').once('value', function(requestsRef){
+                var requests = requestsRef.val();
+                if (requests){
+                  requests.push(requestId);
+                } else {
+                  requests = [requestId];
+                }
+                firebase.database().ref('accounts/' + $scope.trip.traveler).update({
+                  receivedRequests : requests
+                });
+
+                // item.status = 'pendding';
+                firebase.database().ref('items/' + item.id).child('item').update({
+                  status : 'pendding'
+                });
+                delete $localStorage.selectedItem;
+              });
+            }
+          }
+        });
+      }
+    } else {
+      console.log("===== Select Item Firstly =====");
+    }
   };
   $scope.$on('$ionicView.enter', function() {
 

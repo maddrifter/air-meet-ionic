@@ -1,5 +1,5 @@
 'Use Strict';
-angular.module('App').controller('ItemDetailController', function($scope, $state,$localStorage, $ionicHistory, $ionicTabsDelegate, $stateParams, Service) {
+angular.module('App').controller('ItemDetailController', function($scope, $state,$localStorage, $ionicHistory, $ionicTabsDelegate, $stateParams, Service, Utils) {
   // $scope.$on('$stateChangeStart', function(event) {
   //   if (!$scope.canChangeView) {
   //     event.preventDefault();
@@ -15,6 +15,7 @@ angular.module('App').controller('ItemDetailController', function($scope, $state
     status : "default",
     deliverer : "",
     rating : 0,
+    isSelected : false,
   }
   //Allow changing to other views when tabs is selected.
   $scope.changeTab = function(stateTo) {
@@ -42,15 +43,56 @@ angular.module('App').controller('ItemDetailController', function($scope, $state
 
   $scope.back = function(){
     if ($scope.mode == 'Edit'){
-      $scope.addItem($scope.itemInfo);
+      if($scope.itemInfo.quantity > 0) {
+        $scope.addItem($scope.itemInfo);
+      }
     }
     $scope.canChangeView = true;
     $state.go("myitems");
   };
   $scope.saveItem = function() {
-    $scope.addItem($scope.itemInfo);
-    $scope.canChangeView = true;
-    $state.go("myitems");
+    if ($scope.itemInfo.quantity > 0) {
+      $scope.addItem($scope.itemInfo);
+      $scope.canChangeView = true;
+      $state.go("myitems");
+    }
+  };
+
+  //Set profile image while deleting the previous uploaded profilePic.
+  $scope.$on('imageUploaded', function(event, args) {
+    $scope.changedProfilePic = true;
+    firebase.database().ref('accounts/' + $localStorage.accountId).once('value', function(account) {
+      if(account.val().profilePic != 'img/profile.png')
+        firebase.storage().refFromURL(account.val().profilePic).delete();
+    });
+    firebase.database().ref('accounts/' + $localStorage.accountId).update({
+      itemPicture: args.imageUrl
+    });
+  });
+  //Function to assign a profile picture, calls imageUploaded function on top when Firebase is done uploading the image.
+  $scope.changeItemPicture = function() {
+    var popup = Utils.confirm('ion-link', 'Profile Picture: Do you want to take a photo or choose from your gallery?', 'ion-images', 'ion-camera');
+    popup.then(function(isCamera) {
+      var imageSource;
+      if (isCamera) {
+        imageSource = Camera.PictureSourceType.CAMERA;
+      } else {
+        imageSource = Camera.PictureSourceType.PHOTOLIBRARY;
+      }
+      //Show loading.
+      Utils.getItemPicture(imageSource);
+    });
+  };
+
+  //Constrains our selected picture to be of same width and height, to preserve proportion.
+  $scope.constrainProportion = function() {
+    if($scope.changedProfilePic) {
+      Utils.hide();
+      $scope.changedProfilePic = false;
+    }
+    var img = document.getElementById('item-picture');
+    var width = img.width;
+    img.style.height = width + "px";
   };
 
   $scope.ratingsObject = {
@@ -72,9 +114,20 @@ angular.module('App').controller('ItemDetailController', function($scope, $state
   };
 
   //Add My trip, create Firebase data.
-  $scope.addItem = function(item) {
+  $scope.addItem = function(itemInfo) {
     firebase.database().ref('accounts/' + $localStorage.accountId).once('value', function(account){
       //Check existing the trip
+      var item = {
+        name : itemInfo.name,
+        quantity : itemInfo.quantity,
+        weight : itemInfo.weight,
+        dimension: itemInfo.dimension,
+        description : itemInfo.description,
+        reward : itemInfo.reward,
+        status : itemInfo.status,
+        deliverer : itemInfo.deliverer,
+        rating : itemInfo.rating        
+      }
       var hasItem = false;
       var myItems = account.val().myItems;
       if (myItems) {

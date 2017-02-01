@@ -4399,7 +4399,7 @@ a.subdued {
     color: #fff; }
 .tabs-stable > .tabs {
     height: 65px;
-    padding-top: 10px;
+    /*padding-top: 10px;*/
 }
 .tabs-stable > .tabs,
 .tabs.tabs-stable {
@@ -5718,7 +5718,7 @@ ion-tabs.tabs-striped.tabs-color-active-dark .tab-item.tab-item-active, ion-tabs
   font-size: 16px; }
   .item h2 {
     margin: 0 0 2px 0;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: normal; }
   .item h3 {
     margin: 0 0 4px 0;
@@ -6350,8 +6350,8 @@ button.item.item-button-right {
 .item-thumbnail-left,
 .item-thumbnail-left .item-content {
   padding-top: 8px;
-  padding-left: 90px;
-  min-height: 100px; }
+  padding-left: 70px;
+  min-height: 60px; }
   .item-thumbnail-left > img:first-child,
   .item-thumbnail-left .item-image,
   .item-thumbnail-left .item-content > img:first-child,
@@ -6359,8 +6359,8 @@ button.item.item-button-right {
     position: absolute;
     top: 15px;
     left: 10px;
-    max-width: 70px;
-    max-height: 70px;
+    max-width: 50px;
+    max-height: 50px;
     width: 100%;
     height: 100%; }
 
@@ -7753,7 +7753,7 @@ input[type="color"] {
   vertical-align: middle;
   font-size: 2vh;
   line-height: 3vh; }
-  
+
 .platform-ios input[type="datetime-local"],
 .platform-ios input[type="date"],
 .platform-ios input[type="month"],

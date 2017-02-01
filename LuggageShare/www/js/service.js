@@ -1,7 +1,7 @@
 //service.js
 //This is the class where most of the data shown on the views are stored.
 //Changes done on the Firebase Database through the Watchers (watcher.js) should be reflected on this service.
-angular.module('App').service('Service', function($localStorage) {
+angular.module('App').service('Service', function($localStorage, $filter) {
   var data = {
     usersList: [],
     excludedIds: [],
@@ -16,6 +16,9 @@ angular.module('App').service('Service', function($localStorage) {
     myTripList: [],
     myItemList: [],
     searchedTripsList : [],
+    myRequestsList : [],
+    receivedRequestsList : [],
+    unreadRequests : 0,
   };
   this.clearData = function() {
     data.usersList = [];
@@ -31,6 +34,9 @@ angular.module('App').service('Service', function($localStorage) {
     data.myTripList = [];
     data.myItemList = [];
     data.searchedTripsList = [];
+    data.myRequestsList = [];
+    data.receivedRequestsList = [];
+    data.unreadRequests = 0;
   };
   //Add user to the usersList, only adds if user doesn't exist yet.
   this.addUser = function(profile) {
@@ -51,6 +57,7 @@ angular.module('App').service('Service', function($localStorage) {
         return data.usersList[i];
       }
     }
+    // return $filter('userFilter')(data, accountId);
   };
   //Return usersList.
   this.getUsersList = function() {
@@ -73,8 +80,13 @@ angular.module('App').service('Service', function($localStorage) {
     data.myTripList[index] = trip;
   }
   //Remove Trip
-  this.removeTrip = function(index){
-    data.myTripList.splice(index, 1);
+  this.removeTrip = function(tripId){
+    for(var i = 0 ; i < data.myTripList.length ; i++) {
+      if (data.myTripList[i].id == tripId) {
+        data.myTripList.splice(i, 1);
+        break;
+      }
+    }
   }
   //Get TripList
   this.getTripList =  function() {
@@ -92,6 +104,15 @@ angular.module('App').service('Service', function($localStorage) {
   this.getItemOf = function(index){
     return data.myItemList[index];
   }
+  this.getItem = function(id) {
+    // index = $filter('itemFilter')(data.myItemList,)
+    // if(index != -1){
+    //   return data.myItemList[index];
+    // } else {
+    //   console.log("This item doesn't exist");
+    // }
+    return $filter('itemFilter')(data, id);
+  }
   //Add a Item
   this.addItem =  function(item){
     var index = -1;
@@ -104,12 +125,44 @@ angular.module('App').service('Service', function($localStorage) {
     }
   }
   //Remove a Item
-  this.removeItem = function(index){
-    data.myItemList.splice(index, 1);
+  // this.removeItem = function(index){
+  //   data.myItemList.splice(index, 1);
+  // }
+  //Remove Item of Id
+  this.removeItem = function(itemId){
+    for(var i = 0 ; i < data.myItemList.length ; i++) {
+      if (data.myItemList[i].id == itemId) {
+        data.myItemList.splice(i, 1);
+        break;
+      }
+    }
+  }
+  this.updateItem = function(item){
+    for(var i = 0 ; i < data.myItemList.length ; i++) {
+      if (data.myItemList[i].id == item.id) {
+        data.myItemList[i] = item;
+        console.log("?!!===", data.myItemList);
+        break;
+      }
+    }
   }
   //Edit a Item
   this.replaceItem = function(index, newItem){
     data.myItemList[index] = newItem;
+  }
+
+  this.updateUnreadRequests = function() {
+    var temp = 0;
+    for (var i = 0 ; i < data.receivedRequestsList.length ; i++) {
+      if (data.receivedRequestsList[i].status == "pendding"){
+        temp = temp + 1;
+      }
+    }
+    data.unreadRequests = temp;
+    console.log("======= Unread Requests : " , data.unreadRequests);
+  }
+  this.getUnreadRequests =  function() {
+    return data.unreadRequests;
   }
   //--------------SearchedTripList--------------//
   this.getSearchedTripsList = function(){
@@ -118,8 +171,9 @@ angular.module('App').service('Service', function($localStorage) {
   this.addSearchedTripList = function(trip){
     var index = -1;
     for(var i = 0; i < data.searchedTripsList.length; i++) {
-      if(data.searchedTripsList[i].tripId == trip.tripId)
+      if(data.searchedTripsList[i].tripId == trip.tripId){
         index = i;
+      }
     }
     if(index == -1) {
       data.searchedTripsList.push(trip);
@@ -130,6 +184,46 @@ angular.module('App').service('Service', function($localStorage) {
   }
   this.getSearchedTripOf = function(index) {
     return data.searchedTripsList[index];
+  }
+  this.removeSearchedTripWithId = function(id) {
+    var index = -1;
+    for(var i = 0; i < data.searchedTripsList.length; i++) {
+      if(data.searchedTripsList[i].tripId == id)
+        index = i;
+    }
+    if(index != -1) {
+      data.searchedTripsList.splice(index, 1);
+    }
+  }
+  //----  Control My Requests  -----//
+  this.addMyRequest = function(myRequest){
+     var index = -1;
+     for(var i = 0 ; i < data.myRequestsList.length ; i++) {
+       if(data.myRequestsList[i].item == myRequest.item){
+         index = i;
+       }
+     }
+     if(index == -1) {
+       data.myRequestsList.push(myRequest);
+       console.log("?===?", data.myRequestsList);
+     }
+  }
+  //----  Control Received Requests  -----//
+  this.addReceivedRequest = function(receivedRequest){
+     var index = -1;
+     for(var i = 0 ; i < data.receivedRequestsList.length ; i++) {
+       if(data.receivedRequestsList[i].id == receivedRequest.id){
+         index = i;
+       }
+     }
+     if(index == -1) {
+       receivedRequest['lastUpdate'] = $filter('date')(new Date(receivedRequest['lastUpdate']), 'hh:mm, MMM dd yyyy');
+       data.receivedRequestsList.push(receivedRequest);
+       console.log("!===!", data.receivedRequestsList);
+     }
+  }
+  this.getReceivedRequests = function(){
+    return data.receivedRequestsList;
   }
   //Add to excludedIds, excludedIds are ids that should not show up on search Users. Your own profile and your existing friends are excludedIds.
   this.addExcludedIds = function(id) {
@@ -338,74 +432,18 @@ angular.module('App').service('Service', function($localStorage) {
       }
     }
   };
-  // //Add to Group unreadMessages.
-  // this.addUnreadGroupMessages = function(messagesCount) {
-  //   if (!data.unreadGroupMessages) {
-  //     data.unreadGroupMessages = messagesCount;
-  //   } else {
-  //     data.unreadGroupMessages = data.unreadGroupMessages + messagesCount;
-  //   }
-  // };
-  // //Minus to Group unreadMessages.
-  // this.minusUnreadGroupMessages = function(messagesCount) {
-  //   if (!data.unreadGroupMessages) {
-  //     data.unreadGroupMessages = messagesCount;
-  //   } else {
-  //     data.unreadGroupMessages = data.unreadGroupMessages - messagesCount;
-  //   }
-  // };
-  // //Set Group unreadMessages.
-  // this.setUnreadGroupMessages = function(groupId, unreadMessages) {
-  //   for (var i = 0; i < data.groupList.length; i++) {
-  //     if (data.groupList[i].id == groupId) {
-  //       data.groupList[i].unreadMessages = unreadMessages;
-  //     }
-  //   }
-  // };
-  //Add friendRequest.
-  // this.addFriendRequest = function(friendRequest) {
-  //   data.friendRequestList.push(friendRequest);
-  //   data.friendRequests++;
-  // };
-  // //Get friendRequest List.
-  // this.getFriendRequestList = function() {
-  //   return data.friendRequestList;
-  // };
-  //Remove friendRequest.
-  // this.removeFriendRequest = function(friendId) {
-  //   var index = -1;
-  //   for (var i = 0; i < data.friendRequestList.length; i++) {
-  //     if (data.friendRequestList[i].id == friendId) {
-  //       index = i;
-  //       data.friendRequests--;
-  //     }
-  //   }
-  //   if (index > -1) {
-  //     data.friendRequestList.splice(index, 1);
-  //   }
-  // };
-  // //Get friendRequest count.
-  // this.getFriendRequestsCount = function() {
-  //   return data.friendRequests;
-  // };
-  // //Add requestSent.
-  // this.addRequestSent = function(friendRequest) {
-  //   data.requestSentList.push(friendRequest);
-  // };
-  // //Remove requestSent.
-  // this.removeRequestSent = function(friendId) {
-  //   var index = -1;
-  //   for (var i = 0; i < data.requestSentList.length; i++) {
-  //     if (data.requestSentList[i].id == friendId) {
-  //       index = i;
-  //     }
-  //   }
-  //   if (index > -1) {
-  //     data.requestSentList.splice(index, 1);
-  //   }
-  // };
-  // //Get requestSent List.
-  // this.getRequestSentList = function() {
-  //   return data.requestSentList;
-  // };
+})
+.filter('itemFilter', function() {
+  return function(data, id) {
+    return data.myItemList.find(function(item) {
+      return item.id == id;
+    });
+  }
+})
+.filter('userFilter', function() {
+  return function(data, id) {
+    return data.usersList.find(function(user) {
+      return user.id == id;
+    });
+  }
 });

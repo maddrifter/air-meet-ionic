@@ -7,16 +7,18 @@
   </ion-header-bar>
   <ion-content class="text-center" scroll="false">
     <ion-list >
-     <ion-item class="item item-thumbnail-left" type="item-text-wrap" ng-repeat="trip in trips track by $index" ng-click="tripDetail('Edit', $index)">
+     <ion-item class="my-trip-item item item-thumbnail-left" type="item-text-wrap" ng-repeat="trip in trips track by $index" >
         <img ng-src="img/swift.png">
-        <div class="one-half-width text-left padding-top10 margin-top10">
-          <h2>{{trip.from}} - {{trip.to}}</h2>
+        <div class="trip-item-left text-left">
+          <h2 class="text-left">{{trip.from}} - {{trip.to}}</h2>
           <p>{{trip.weightAvailable}}</p>
         </div>
-        <div class="one-half-width text-left margin-top30">
-          <p class="padding-left40">{{getFormattedDate(trip.dateTime)}}</p>
+        <div class="trip-item-right item-right margin-top5 text-right">
+          <p class="padding-left10">{{getFormattedDate(trip.dateTime)}}</p>
+          <i class="icon ion-trash-a" ng-click="removeTrip($index)"></i>
+          <i class="icon ion-compose" ng-click="tripDetail('Edit', $index)"></i>
         </div>
-        <i class="icon ion-chevron-right line-height-75"></i>
+        <!-- <i class="icon ion-chevron-right line-height-50"></i> -->
       </ion-item>
     </ion-list>
   </ion-content>

@@ -1,5 +1,5 @@
 'Use Strict';
-angular.module('App').controller('TripDetailController', function($scope, $filter, $localStorage, $state, $stateParams,  $ionicHistory, $ionicTabsDelegate, Service) {
+angular.module('App').controller('RequestDetailController', function($scope, $filter, $localStorage, $state, $stateParams,  $ionicHistory, $ionicTabsDelegate, Service) {
   // $scope.$on('$stateChangeStart', function(event) {
   //   if (!$scope.canChangeView) {
   //     event.preventDefault();
@@ -49,33 +49,12 @@ angular.module('App').controller('TripDetailController', function($scope, $filte
     $scope.tripInfo.sizeAvailable = "";
     $scope.tripInfo.weightAvailable = ""
   };
-  $scope.saveTrip = function() {
-    if ($scope.mode == "Edit") {
-      var index = $stateParams.index;
-      // Service.replaceTrip(index, $scope.tripInfo);
-      $scope.addTrip($scope.tripInfo );
 
-    } else {
-      var trip = {
-        from : $scope.tripInfo.from,
-        to : $scope.tripInfo.to,
-        dateTime: $scope.tripInfo.dateTime.toString(),
-        weightAvailable : $scope.tripInfo.weightAvailable,
-        sizeAvailable : $scope.tripInfo.sizeAvailable,
-        flightNumber: $scope.tripInfo.flightNumber,
-        modeOfTransport : $scope.tripInfo.modeOfTransport
-      };
-      $scope.addTrip(trip);
-    }
-    $scope.back();
-  };
 
   $scope.back = function(){
     $scope.canChangeView = true;
-    delete $localStorage.tripId;
-
     // $scope.clearTripInfo();
-    $state.go("mytrips");
+    $state.go("messages");
   };
   //Broadcast from our Watcher that tells us that a new trip has been made with the user, we then reload the view to accomodate to changes
   // $scope.$on('tripAdded', function(event, args){

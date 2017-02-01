@@ -38,8 +38,6 @@ angular.module('App').controller('messageController', function($scope, $state, $
           for (var i = 0; i < $scope.messages.length; i++) {
             $scope.messages[i].profilePic = Service.getProfilePic($scope.messages[i].sender);
           }
-        } else {
-          
         }
         $scope.scrollBottom();
         if ($localStorage.conversationId) {

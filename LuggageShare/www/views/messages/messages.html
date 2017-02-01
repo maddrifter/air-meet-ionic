@@ -1,40 +1,36 @@
 <ion-view hide-back-button="true" hide-nav-bar="true" can-swipe-back="false">
-  <ion-content class="has-footer">
-    <div class="button-bar" ng-show="mode == 'Chats'">
-      <button class="button button-block button-clear button-calm margin-top0 margin-bottom0 border-radius-0" ng-click="mode = 'Chats'">Chat</button>
-      <button class="button button-block button-calm margin-top0  border-radius-0 margin-bottom0" ng-click="mode = 'Requests'">Requests</button>
-    </div>
-    <div class="button-bar" ng-show="mode == 'Requests'">
-      <button class="button button-block button-calm margin-top0  border-radius-0 margin-bottom0" ng-click="mode = 'Chats'">Chat</button>
-      <button class="button button-block button-clear button-calm margin-top0  border-radius-0 margin-bottom0" ng-click="mode = 'Requests'">Requests</button>
-    </div>
-    <div ng-show="mode == 'Chats'">
-      <div>
-        <!-- <div class="row margin-bottom-15">
-          <div class="col col-75 clear-padding-margin">
-            <label class="item item-input item-searchbar">
-              <i class="icon ion-ios-search"></i>
-              <input type="text" placeholder="Search for people or groups" ng-model="conversationSearch" />
-            </label>
-          </div>
-          <div class="col col-25 clear-padding-margin">
-            <div class="button-bar margin-left20">
-              <button class="button button-clear button-energized" ng-click="conversationSearch = undefined"><i class="icon ion-android-close"></i></button>
-            </div>
-          </div>
-        </div> -->
-        <ion-list>
-          <ion-item class="item-avatar item-icon-right item-chat" type="item-text-wrap" ng-click="chat(message.user, message.id)" ng-repeat="conversation in conversations | orderBy: 'lastActiveDate':true | messageFilter: conversationSearch">
-            <img ng-src="{{message.user.profilePic}}">
-            <span ng-if="message.unreadMessages > 0" class="badge badge-assertive margin-top15">{{conversation.unreadMessages}}</span>
-            <h2 class="margin-top-5" ng-if="message.unreadMessages <= 0">{{conversation.user.name}}<div class="online-on" ng-if="message.user.online"></div></h2>
-            <p ng-if="message.unreadMessages <= 0">{{conversation.lastMessage}}</p>
+  <ion-content class="has-footer" >
+    <div class="button-bar back-calm" ng-show="mode == 'Chats'">
+      <button class="button button-block button-clear button-calm margin-top20 margin-bottom0 border-radius-0" ng-click="mode = 'Chats'">Chat
+        <span ng-if="conversation.unreadMessages > 0" class="badge badge-assertive margin-top0 badge-request">{{conversation.unreadMessages}}</span>
+      </button>
+      <button class="button button-block button-calm margin-top20  border-radius-0 margin-bottom0" ng-click="mode = 'Requests'">Requests
+        <span ng-if="unreadRequests > 0" class="badge badge-assertive margin-top0 badge-request">{{unreadRequests}}</span>
+      </button>
 
-            <h2 ng-if="message.unreadMessages > 0" style="font-weight: bold;">{{conversation.user.name}}<div class="online-on" ng-if="message.user.online"></div></h2>
-            <p ng-if="message.unreadMessages > 0" style="font-weight: bold;">{{conversation.lastMessage}}</p>
-            <p class="font-size-85 energized margin-bottom-10">{{conversation.messages[conversation.messages.length - 1].time}}</p>
+    </div>
+    <div class="button-bar back-calm" ng-show="mode == 'Requests'">
+      <button class="button button-block button-calm margin-top20  border-radius-0 margin-bottom0" ng-click="mode = 'Chats'">Chat
+        <span ng-if="conversation.unreadMessages > 0" class="badge badge-assertive margin-top0 badge-request">{{conversation.unreadMessages}}</span>
+      </button>
+      <button class="button button-block button-clear button-calm margin-top20  border-radius-0 margin-bottom0" ng-click="mode = 'Requests'">Requests
+        <span ng-if="unreadRequests > 0" class="badge badge-assertive margin-top0 badge-request">{{unreadRequests}}</span>
+      </button>
+    </div>
+    <div ng-show="mode =='Chats'">
+      <div>
+        <ion-list>
+          <ion-item class="item-avatar item-icon-right item-chat" type="item-text-wrap" ng-click="chat(conversation.contractor, conversation.id)" ng-repeat="conversation in conversations | orderBy: 'lastActiveDate':true | messageFilter: conversationSearch">
+            <img ng-src="{{conversation.contractor.profilePic}}">
+            <span ng-if="conversation.unreadMessages > 0" class="badge badge-assertive margin-top15">{{conversation.unreadMessages}}</span>
+            <h2 class="margin-top-5 margin-left10 text-left" ng-if="conversation.unreadMessages <= 0">{{conversation.contractor.name}}<div class="online-on" ng-if="conversation.contractor.online"></div></h2>
+            <p ng-if="conversation.unreadMessages <= 0">{{conversation.lastMessage}}</p>
+
+            <h2 ng-if="conversation.unreadMessages > 0" style="font-weight: bold;">{{conversation.contractor.name}}<div class="online-on" ng-if="conversation.contractor.online"></div></h2>
+            <p ng-if="conversation.unreadMessages > 0" style="font-weight: bold;">{{conversation.lastMessage}}</p>
+            <p class="font-size-85 calm margin-bottom-10">{{conversation.messages[conversation.messages.length - 1].time}}</p>
             <p class="time-list">
-              <i class="icon ion-clock"></i> {{conversation.messages[conversation.messages.length - 1].date}}
+              <i class="icon ion-clock"></i>{{conversation.messages[conversation.messages.length - 1].date}}
             </p>
             <ion-option-button class="button-assertive" ng-click="delete(conversation, $index)">
               <i class="icon ion-close"></i>
@@ -42,33 +38,24 @@
           </ion-item>
         </ion-list>
       </div>
-
-      <!-- <div ng-if="mode == 'Compose'">
-        <div class="row margin-bottom-15">
-          <div class="col col-75 clear-padding-margin">
-            <label class="item item-input item-searchbar">
-              <i class="icon ion-ios-search"></i>
-              <input type="text" placeholder="Search for people or username" ng-model="friendSearch" />
-            </label>
-          </div>
-          <div class="col col-25 clear-padding-margin">
-            <div class="button-bar margin-left20">
-              <button class="button button-clear button-energized" ng-click="friendSearch = undefined"><i class="icon ion-android-close"></i></button>
-            </div>
-          </div>
-        </div>
-        <div class="row" ng-repeat="friend in friends | friendFilter: friendSearch | orderBy: 'name'">
-          <div class="col clear-padding-margin">
-            <ion-item class="item-avatar clear-border" ng-click="chat(friend)">
-              <img ng-src="{{friend.profilePic}}">
-              <h2 class="font-bold">{{friend.name}}<div class="online-on" ng-if="friend.online"></div></h2>
-              <p class="font-bold">@{{friend.username}}</p>
-            </ion-item>
-          </div>
-        </div>
-      </div> -->
     </div>
-    </div ng-show="mode=='Requests'">
+    <div ng-show="mode == 'Requests'">
+        <ion-item class="item-avatar item-icon-right item-chat item-request" type="item-text-wrap" ng-click="requestDetail()" ng-repeat="request in requests ">
+          <img ng-src="img/max.png">
+          <!-- <img ng-src="{{request.itemAvatar}}"> -->
+          <span ng-if="request.status == 'pendding'" class="badge badge-assertive margin-top15 badge-unaccept">1</span>
+          <h2 class="margin-top-5 margin-left10 text-left" ng-if="request.status == 'pendding'">{{request.itemName}}</h2>
+          <p ng-if="request.status == 'pendding'">{{request.senderName}}</p>
+
+          <h2 ng-if="request.status != 'pendding'" style="font-weight: bold;">Item Name : {{request.itemName}}</h2>
+          <p ng-if="request.status != 'pendding'" style="font-weight: bold;">Sender : {{request.senderName}}</p>
+          <p class="time-list">
+            <i class="icon ion-clock"></i>{{request.lastUpdate}}
+          </p>
+          <!-- <ion-option-button class="button-assertive" ng-click="delete(request, $index)">
+            <i class="icon ion-close"></i>
+          </ion-option-button> -->
+        </ion-item>
     </div>
   </ion-content>
   <div ng-include src="'views/tabs/tabs.html'"></div>
